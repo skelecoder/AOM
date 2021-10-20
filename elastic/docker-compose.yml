@@ -1,4 +1,4 @@
-version: '2.2'
+version: "2.2"
 services:
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.15.1
@@ -61,8 +61,12 @@ services:
     container_name: kibana
     depends_on:
       - es01
+      - es02
+      - es03
     ports:
-      - '5601:5601'
+      - "5601:5601"
+    networks:
+      - elastic
 
 volumes:
   data01:
