@@ -1,0 +1,9 @@
+version: "3"
+services:
+  dashboard_frontend:
+    build: ./dashboard-frontend/
+    container_name: dashboard_frontend
+    environment:
+      ELASTICSEARCH_HOST: "elasticsearch"
+    ports:
+      - "3000:3000"
