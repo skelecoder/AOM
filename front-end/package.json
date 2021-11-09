@@ -54,7 +54,7 @@
     },
     "optionalDependencies": {
         "fsevents": "2.1.2"
-      },
+    },
     "husky": {
         "hooks": {
             "pre-commit": "echo 'checking code to commit... :-)' && tsc --noEmit && lint-staged"
