@@ -2,86 +2,86 @@
 @import url('https://fonts.googleapis.com/css?family=Rubik');
 @import url('https://unpkg.com/leaflet@1.6.0/dist/leaflet.css');
 
-* {
-    box-sizing: border-box;
-}
-body {
-    background-color: $color-background;
-    margin: 0;
-    font-family: Rubik;
-}
+// * {
+//     box-sizing: border-box;
+// }
+// body {
+//     background-color: $color-background;
+//     margin: 0;
+//     font-family: Rubik;
+// }
 
-.recharts-responsive-container,
-.recharts-wrapper,
-.graphical-component {
-    font-size: 10px;
-}
+// .recharts-responsive-container,
+// .recharts-wrapper,
+// .graphical-component {
+//     font-size: 10px;
+// }
 
-.color-primary {
-    color: $color-primary;
-}
-.graphic-component-title {
-    font-size: 13px;
-    line-height: 15px;
-    font-weight: bold;
-}
+// .color-primary {
+//     color: $color-primary;
+// }
+// .graphic-component-title {
+//     font-size: 13px;
+//     line-height: 15px;
+//     font-weight: bold;
+// }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    @media (max-width: $breakpoint-sm) {
-        grid-template-columns: 1fr 1fr;
-    }
-    grid-template-rows: repeat(16, 90px);
+// .grid {
+//     display: grid;
+//     grid-template-columns: repeat(12, 1fr);
+//     @media (max-width: $breakpoint-sm) {
+//         grid-template-columns: 1fr 1fr;
+//     }
+//     grid-template-rows: repeat(16, 90px);
 
-    row-gap: 5px;
-    column-gap: 5px;
-    > div {
-        padding: 5px;
-    }
-}
-.spanRow {
-    grid-row: 1 / -1;
-}
-.spanRow2 {
-    grid-row: span 2;
-}
-.spanRow3 {
-    grid-row: span 3;
-}
-.spanRow4 {
-    grid-row: span 4;
-}
-.spanRow5 {
-    grid-row: span 5;
-}
-.spanRow6 {
-    grid-row: span 6;
-}
-.spanColumn2 {
-    grid-column: span 2;
-}
-.spanColumn3 {
-    grid-column: span 3;
-}
-.spanColumn4 {
-    grid-column: span 4;
-}
-.spanColumn5 {
-    grid-column: span 5;
-}
-.spanColumn6 {
-    grid-column: span 6;
-}
-.spanColumn7 {
-    grid-column: span 7;
-}
-.spanColumn8 {
-    grid-column: span 8;
-}
-.spanColumn9 {
-    grid-column: span 9;
-}
-.spanColumn10 {
-    grid-column: span 10;
-}
+//     row-gap: 5px;
+//     column-gap: 5px;
+//     > div {
+//         padding: 5px;
+//     }
+// }
+// .spanRow {
+//     grid-row: 1 / -1;
+// }
+// .spanRow2 {
+//     grid-row: span 2;
+// }
+// .spanRow3 {
+//     grid-row: span 3;
+// }
+// .spanRow4 {
+//     grid-row: span 4;
+// }
+// .spanRow5 {
+//     grid-row: span 5;
+// }
+// .spanRow6 {
+//     grid-row: span 6;
+// }
+// .spanColumn2 {
+//     grid-column: span 2;
+// }
+// .spanColumn3 {
+//     grid-column: span 3;
+// }
+// .spanColumn4 {
+//     grid-column: span 4;
+// }
+// .spanColumn5 {
+//     grid-column: span 5;
+// }
+// .spanColumn6 {
+//     grid-column: span 6;
+// }
+// .spanColumn7 {
+//     grid-column: span 7;
+// }
+// .spanColumn8 {
+//     grid-column: span 8;
+// }
+// .spanColumn9 {
+//     grid-column: span 9;
+// }
+// .spanColumn10 {
+//     grid-column: span 10;
+// }
