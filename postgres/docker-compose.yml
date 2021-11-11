@@ -9,7 +9,7 @@ services:
     command:
       - "postgres"
       - "-c"
-      - listen_addresses = '*'
+      - listen_addresses='*'
     volumes:
       - database-data:/var/lib/postgresql/data/
   adminer:
