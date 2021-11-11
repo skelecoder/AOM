@@ -6,12 +6,14 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: Skele3179
-      DATABASE_URL: postgres://postgres:Skele3179@db:5432/postgres
+      DATABASE_URL: postgres://postgres:Skele3179@178.18.252.38:5432/postgres
     command: postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf
     volumes:
       - database-data:/var/lib/postgresql/data/
       - ./postgres.conf:/etc/postgresql/postgresql.conf
       - ./pg_hba.conf:/etc/postgresql/pg_hba.conf
+    networks:
+      - postgres
   adminer:
     image: adminer
     restart: always
@@ -19,3 +21,6 @@ services:
       - 8080:8080
 volumes:
   database-data:
+networks:
+  postgres:
+    driver: bridge
