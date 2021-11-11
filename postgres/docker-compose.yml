@@ -6,10 +6,11 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: Skele3179
-    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf -c /etc/postgresql/pg_hba.conf
     volumes:
       - database-data:/var/lib/postgresql/data/
       - ./postgres.conf:/etc/postgresql/postgresql.conf
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf
   adminer:
     image: adminer
     restart: always
