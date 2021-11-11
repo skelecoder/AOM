@@ -6,6 +6,10 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: Skele3179
+    command:
+      - "postgres"
+      - "-c"
+      - listen_addresses = '*'
     volumes:
       - database-data:/var/lib/postgresql/data/
   adminer:
