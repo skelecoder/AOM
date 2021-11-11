@@ -6,6 +6,7 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: Skele3179
+      DATABASE_URL: postgres://postgres:Skele3179@db:5432/postgres
     command: postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf
     volumes:
       - database-data:/var/lib/postgresql/data/
