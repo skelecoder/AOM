@@ -19,7 +19,7 @@ export class Reception extends BaseModel {
     public return!: boolean;
 
     @ForeignKey(() => Provider)
-    @Column
+    @Column({ type: DataType.INTEGER})
     providerId: number;
 
     @BelongsTo(() => Provider)

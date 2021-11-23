@@ -10,17 +10,17 @@ import { Reception } from './Reception';
 })
 export class ItemReceptionAssociation extends BaseModel {
     @ForeignKey(() => Item)
-    @Column
+    @Column({ type: DataType.INTEGER})
     itemId: number;
 
-    @BelongsTo(() => Item)
+    @BelongsTo(() => Item, 'itemId')
     item: Item;
 
     @ForeignKey(() => Reception)
-    @Column
+    @Column({ type: DataType.INTEGER})
     receptionId: number;
 
-    @BelongsTo(() => Reception)
+    @BelongsTo(() => Reception, 'receptionId')
     reception: Reception;
 
     @Column({ type: DataType.FLOAT, allowNull: false })

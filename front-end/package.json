@@ -19,6 +19,7 @@
         "@material-ui/icons": "^4.11.2",
         "@mui/icons-material": "^5.1.0",
         "@mui/material": "^5.1.0",
+        "@mui/x-data-grid": "^5.0.1",
         "dotenv": "^10.0.0",
         "leaflet": "^1.7.1",
         "markdown-to-jsx": "^7.1.3",
