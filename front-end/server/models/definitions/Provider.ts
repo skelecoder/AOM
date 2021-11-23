@@ -8,9 +8,6 @@ import { Reception } from './Reception';
     tableName: 'provider',
 })
 export class Provider extends BaseModel {
-    @Column({ type: DataType.INTEGER, allowNull: false })
-    public providerId!: number;
-
     @Column({ type: DataType.STRING, allowNull: false })
     public name!: string;
 
@@ -21,5 +18,5 @@ export class Provider extends BaseModel {
     public email?: string;
 
     @HasMany(() => Reception)
-    public receptionProviderAssociation?: Reception[];
+    public receptions?: Reception[];
 }
