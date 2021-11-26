@@ -1,12 +1,12 @@
 {
     "name": "dashboard-frontend",
     "version": "0.0.1",
-    "description": "React Application for a smart city dashboard",
+    "description": "Amanor Warehouse Manager",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon",
-        "build": "next build && tsc --project tsconfig.server.json",
-        "start": "cross-env NODE_ENV=production node dist/index.js",
+        "dev": "next",
+        "build": "next build",
+        "start": "next start",
         "type-check": "tsc",
         "lint": "tsc --noEmit && eslint */**/*.{js,ts,tsx} --quiet --fix"
     },
