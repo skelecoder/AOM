@@ -13,10 +13,10 @@ services:
     ports:
     - 27017:27017
     healthcheck:
-    test: echo 'db.runCommand("ping").ok' | mongo 178.18.252.38:27017/test --quiet
-    interval: 30s
-    timeout: 10s
-    retries: 3
+      test: echo 'db.runCommand("ping").ok' | mongo 178.18.252.38:27017/test --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
     restart: unless-stopped
   mongo-express:
     image: mongo-express
@@ -37,10 +37,10 @@ services:
     ports:
     - 8081:8081
     healthcheck:
-    test:  wget --quiet --tries=3 --spider http://admin:admin123@178.18.252.38:8081 || exit 1
-    interval: 30s
-    timeout: 10s
-    retries: 3
+      test:  wget --quiet --tries=3 --spider http://admin:admin123@178.18.252.38:8081 || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
     restart: unless-stopped
 volumes:
   mongodb-data:
