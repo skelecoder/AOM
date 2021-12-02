@@ -1,8 +1,8 @@
 version: "3"
 services:
-  dashboard_frontend:
+  amanorwm:
     build: ./
-    container_name: frontend
+    container_name: amanorwm
     environment:
       ELASTICSEARCH_HOST: "elasticsearch"
     ports:
