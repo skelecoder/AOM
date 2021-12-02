@@ -4,19 +4,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { DataGrid, GridToolbarFilterButton } from '@mui/x-data-grid';
-
-type Unity = 'm3' | 'ml' | 'Forfait' | 'H' | 'U' | 'm2' | 'Tonne' | 'dm' | 'kg';
-
-interface Item {
-    id: number;
-    name: string;
-    code: string;
-    model: string;
-    unity: Unity;
-    price: number;
-    qty: number;
-}
+import { DataGrid } from '@mui/x-data-grid';
+import { Item } from 'lib/definitions/Item';
+import { Button } from '@mui/material';
 
 const items: Item[] = [
     {
@@ -87,7 +77,7 @@ const items: Item[] = [
 const Stock = () => (
     <>
         {/* Chart */}
-        <Grid item xs={12} md={8} lg={9}>
+        <Grid item xs={12} md={12}>
             <Paper
                 sx={{
                     p: 2,
@@ -96,10 +86,16 @@ const Stock = () => (
                     height: 600,
                 }}
             >
-                <Toolbar></Toolbar>
+                <Toolbar>
+                    <Button variant={'outlined'} color={'success'} sx={{ mr: 2 }}>
+                        Nouvelle entrée
+                    </Button>
+                    <Button variant={'outlined'} color={'error'}>
+                        Nouvelle sortie
+                    </Button>
+                </Toolbar>
                 <DataGrid
                     rows={items}
-                    components={{ Toolbar: GridToolbarFilterButton }}
                     autoPageSize
                     columns={[
                         // column definition example
@@ -127,28 +123,10 @@ const Stock = () => (
                             filterable: true,
                             width: 400,
                         },
-                        
                     ]}
                     checkboxSelection
                 />
             </Paper>
-        </Grid>
-        {/* Recent Deposits */}
-        <Grid item xs={12} md={4} lg={3}>
-            <Paper
-                sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                }}
-            >
-                Deposits
-            </Paper>
-        </Grid>
-        {/* Recent Orders */}
-        <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>Orders</Paper>
         </Grid>
     </>
 );

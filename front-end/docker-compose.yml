@@ -6,4 +6,4 @@ services:
     environment:
       ELASTICSEARCH_HOST: "elasticsearch"
     ports:
-      - "3000:3000"
+      - "3030:3000"

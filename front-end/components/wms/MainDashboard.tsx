@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { DataGrid } from '@mui/x-data-grid';
+import { Typography } from '@material-ui/core';
 
 const rows = [
     { id: 1, name: 'Hello', col2: 'World' },
@@ -15,8 +16,8 @@ const rows = [
 ];
 const MainDashboard = () => (
     <>
-        {/* Chart */}
-        <Grid item xs={12} md={8} lg={9}>
+        {/* Entrees */}
+        <Grid item xs={12} md={4}>
             <Paper
                 sx={{
                     p: 2,
@@ -25,24 +26,11 @@ const MainDashboard = () => (
                     height: 240,
                 }}
             >
-                <DataGrid
-                    rows={rows}
-                    autoPageSize
-                    columns={[
-                        // column definition example
-                        {
-                            field: 'name',
-                            headerName: 'Bon de réception',
-                            filterable: true,
-                            width: 300,
-                        },
-                    ]}
-                    checkboxSelection
-                />
+                <Typography component="h3">Entrées</Typography>
+                <Typography component="h1" variant={'h1'}>3</Typography>
             </Paper>
         </Grid>
-        {/* Recent Deposits */}
-        <Grid item xs={12} md={4} lg={3}>
+        <Grid item xs={12} md={4}>
             <Paper
                 sx={{
                     p: 2,
@@ -51,12 +39,11 @@ const MainDashboard = () => (
                     height: 240,
                 }}
             >
-                Deposits
+                <Typography component="h3">Sorties</Typography>
+                <Typography component="h1" variant={'h1'}>
+                    4
+                </Typography>
             </Paper>
-        </Grid>
-        {/* Recent Orders */}
-        <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>Orders</Paper>
         </Grid>
     </>
 );

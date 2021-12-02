@@ -31,7 +31,6 @@ const rows = [
 export const Wms = () => {
     return (
         <>
-            <Dashboard />
             {/* <div style={{ height: '320px' }}>
                 <DataGrid
                     rows={rows}

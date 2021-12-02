@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -24,8 +24,15 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import CategoryIcon from '@mui/icons-material/Category';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Grid, ListItemButton } from '@mui/material';
+import { Grid, ListItemButton, ListSubheader } from '@mui/material';
 import Articles from 'components/wms/Articles';
+import GroupsIcon from '@mui/icons-material/Groups';
+import ConstructionIcon from '@mui/icons-material/Construction';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { Delivery as DeliveryInterface } from 'lib/definitions/Delivery';
+import NewDelivery from 'components/wms/NewDelivery';
+import NewReception from 'components/wms/NewReception';
 
 const drawerWidth: number = 240;
 
@@ -76,7 +83,64 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 }));
 
 const mdTheme = createTheme();
-
+const Delivery1: DeliveryInterface = {
+    id: 210013,
+    teamLeader: 'Hassan Laaroussi',
+    siteCode: 9935,
+    siteType: 'Réclamation',
+    datetime: '25/11/2021 9:36',
+    provider: 'Doukkali',
+    items: [
+        {
+            id: 1,
+            name: 'Pose de Canalisations en béton armé classe 135 A',
+            model: 'DN 300 mm',
+            code: '3.2.1.a',
+            unity: 'ml',
+            price: 66.22,
+            qty: 600,
+        },
+        {
+            id: 2,
+            name: 'Pose de Canalisations en béton armé classe 135 A',
+            model: 'DN 400 mm',
+            code: '3.2.1.b',
+            unity: 'ml',
+            price: 66.22,
+            qty: 450,
+        },
+    ],
+    itemsCount: 2,
+};
+const Delivery2: DeliveryInterface = {
+    id: 210014,
+    teamLeader: 'Hassan Laaroussi',
+    siteCode: 9935,
+    siteType: 'Branchement neuf',
+    datetime: '25/11/2021 9:36',
+    provider: 'Doukkali',
+    items: [
+        {
+            id: 1,
+            name: 'Pose de Canalisations en béton armé classe 135 A',
+            model: 'DN 300 mm',
+            code: '3.2.1.a',
+            unity: 'ml',
+            price: 66.22,
+            qty: 600,
+        },
+        {
+            id: 2,
+            name: 'Pose de Canalisations en béton armé classe 135 A',
+            model: 'DN 400 mm',
+            code: '3.2.1.b',
+            unity: 'ml',
+            price: 66.22,
+            qty: 450,
+        },
+    ],
+    itemsCount: 2,
+};
 interface DashboardProps {
     articles: any;
     reception: any;
@@ -84,8 +148,8 @@ interface DashboardProps {
 }
 
 const Dashboard = (props: DashboardProps) => {
-    const [open, setOpen] = React.useState(true);
-    const [selectedApp, setSelectedApp] = React.useState('MainDashboard');
+    const [open, setOpen] = useState(true);
+    const [selectedApp, setSelectedApp] = useState('MainDashboard');
     const toggleDrawer = () => {
         setOpen(!open);
     };
@@ -102,7 +166,7 @@ const Dashboard = (props: DashboardProps) => {
                 <ListItemIcon>
                     <InventoryIcon />
                 </ListItemIcon>
-                <ListItemText primary="Stock" />
+                <ListItemText primary="Inventaire" />
             </ListItemButton>
             <ListItemButton onClick={() => setSelectedApp('Reception')} selected={selectedApp === 'Reception'}>
                 <ListItemIcon>
@@ -167,6 +231,24 @@ const Dashboard = (props: DashboardProps) => {
                     <List>{mainListItems}</List>
                     <Divider />
                     <List>
+                        <ListSubheader inset>Opérations en cours</ListSubheader>
+                        <ListItemButton
+                            onClick={() => setSelectedApp('New Reception')}
+                            selected={selectedApp === 'New Reception'}
+                        >
+                            <ListItemText color="success" primary={'Nouvelle entrée'} />
+                            <ListItemText color="success" primary="X" />
+                        </ListItemButton>
+                        <ListItemButton
+                            onClick={() => setSelectedApp('New Delivery')}
+                            selected={selectedApp === 'New Delivery'}
+                        >
+                            <ListItemText color="success" primary="Nouvelle sortie" />
+                            <ListItemText color="success" primary="X" />
+                        </ListItemButton>
+                    </List>
+                    <Divider />
+                    <List>
                         <ListItemButton
                             onClick={() => setSelectedApp('Articles')}
                             selected={selectedApp === 'Articles'}
@@ -175,6 +257,37 @@ const Dashboard = (props: DashboardProps) => {
                                 <CategoryIcon />
                             </ListItemIcon>
                             <ListItemText primary="Articles" />
+                        </ListItemButton>
+                        <ListItemButton
+                            onClick={() => setSelectedApp('Providers')}
+                            selected={selectedApp === 'Providers'}
+                        >
+                            <ListItemIcon>
+                                <SupervisedUserCircleIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Fournisseurs" />
+                        </ListItemButton>
+                        <ListItemButton onClick={() => setSelectedApp('Sites')} selected={selectedApp === 'Sites'}>
+                            <ListItemIcon>
+                                <ConstructionIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Chantiers" />
+                        </ListItemButton>
+                        <ListItemButton onClick={() => setSelectedApp('Teams')} selected={selectedApp === 'Teams'}>
+                            <ListItemIcon>
+                                <GroupsIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Équipes" />
+                        </ListItemButton>
+                        <Divider />
+                        <ListItemButton
+                            onClick={() => setSelectedApp('Settings')}
+                            selected={selectedApp === 'Settings'}
+                        >
+                            <ListItemIcon>
+                                <SettingsIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Paramètres" />
                         </ListItemButton>
                     </List>
                 </Drawer>
@@ -200,6 +313,10 @@ const Dashboard = (props: DashboardProps) => {
                             <Reception />
                         ) : selectedApp === 'Articles' ? (
                             <Articles data={props.articles} />
+                        ) : selectedApp === 'New Delivery' ? (
+                            <NewDelivery />
+                        ) : selectedApp === 'New Reception' ? (
+                            <NewReception />
                         ) : selectedApp === 'Stock' ? (
                             <Stock />
                         ) : null}
