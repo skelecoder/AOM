@@ -147,7 +147,7 @@ interface DashboardProps {
     delivery: any;
 }
 
-const Dashboard = (props: DashboardProps) => {
+const Dashboard = () => {
     const [open, setOpen] = useState(true);
     const [selectedApp, setSelectedApp] = useState('MainDashboard');
     const toggleDrawer = () => {
@@ -312,7 +312,7 @@ const Dashboard = (props: DashboardProps) => {
                         ) : selectedApp === 'Reception' ? (
                             <Reception />
                         ) : selectedApp === 'Articles' ? (
-                            <Articles data={props.articles} />
+                            <></>
                         ) : selectedApp === 'New Delivery' ? (
                             <NewDelivery />
                         ) : selectedApp === 'New Reception' ? (

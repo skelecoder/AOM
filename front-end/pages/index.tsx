@@ -7,16 +7,15 @@ const uri = process.env.MONGODB_URI;
 
 import Dashboard from 'components/dashboard/Dashboard';
 
-const Index = (props: any) => <Dashboard articles={props.articles} reception={props} delivery={props} />;
+const Index = (props: any) => <Dashboard  />;
 export const getServerSideProps: GetServerSideProps<any> = async () => {
-    const es = new ElasticsearchService();
-    const mongo = new MongodbService();
+    // const mongo = new MongodbService();
 
-    const articles = await mongo.getArticles();
+    // const articles = await mongo.getArticles();
     
     return {
         props: {
-            articles: JSON.parse(JSON.stringify(articles)),
+            // articles: JSON.parse(JSON.stringify(articles)),
         },
     };
 };
