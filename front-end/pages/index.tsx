@@ -8,6 +8,8 @@ const uri = process.env.MONGODB_URI;
 import Dashboard from 'components/dashboard/Dashboard';
 
 const Index = (props: any) => <Dashboard articles={props.articles} reception={props} delivery={props} />;
+
+
 export const getServerSideProps: GetServerSideProps<any> = async () => {
     const es = new ElasticsearchService();
     const mongo = new MongodbService();

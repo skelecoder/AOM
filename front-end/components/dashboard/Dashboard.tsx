@@ -302,7 +302,7 @@ const Dashboard = (props: DashboardProps) => {
                     }}
                 >
                     <Toolbar />
-                    <Grid container spacing={3} sx={{ p: { xs: 1, md: 3 } }}>
+                    <Grid container xs={12} spacing={3} sx={{ p: { xs: 1, md: 3 } }}>
                         {/* Chart */}
 
                         {selectedApp === 'Delivery' ? (
