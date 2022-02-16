@@ -40,7 +40,7 @@ const Layout = ({ children }) => {
         {
             text: 'Intervention',
             icon: <AssignmentReturnedIcon />,
-            path: '/intervention',
+            path: '/intervention/nouvelle',
         },
     ];
 
@@ -82,20 +82,19 @@ const Layout = ({ children }) => {
         <div>
             <Toolbar />
             <Divider />
-            <List>
+            <List sx={{}}>
                 {menuItems1.map((item) => (
                     <ListItem
                         button
                         key={item.text}
-                        sx={{
-                            backgroundColor: (theme) =>
-                                location.pathname == item.path ? theme.palette.grey[300]: '',
-                        }}
+                        selected={location.pathname == item.path}
                     >
                         <ListItemIcon >{item.icon}</ListItemIcon>
                         <NextLink href={item.path} passHref>
                             <Link color="inherit" underline="none">
+                                
                                 <ListItemText primary={item.text} />
+
                             </Link>
                         </NextLink>
                     </ListItem>
