@@ -40,7 +40,7 @@ const Layout = ({ children }) => {
         {
             text: 'Intervention',
             icon: <AssignmentReturnedIcon />,
-            path: '/intervention/nouvelle',
+            path: '/intervention',
         },
     ];
 
