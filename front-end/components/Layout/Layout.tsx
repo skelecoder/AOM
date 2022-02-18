@@ -5,12 +5,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned';
 import CategoryIcon from '@mui/icons-material/Category';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ConstructionIcon from '@mui/icons-material/Construction';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
@@ -20,7 +17,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import NextLink from 'next/link';
@@ -84,17 +80,11 @@ const Layout = ({ children }) => {
             <Divider />
             <List sx={{}}>
                 {menuItems1.map((item) => (
-                    <ListItem
-                        button
-                        key={item.text}
-                        selected={location.pathname == item.path}
-                    >
-                        <ListItemIcon >{item.icon}</ListItemIcon>
+                    <ListItem button key={item.text} selected={location.pathname.includes(item.path)}>
+                        <ListItemIcon>{item.icon}</ListItemIcon>
                         <NextLink href={item.path} passHref>
                             <Link color="inherit" underline="none">
-                                
                                 <ListItemText primary={item.text} />
-
                             </Link>
                         </NextLink>
                     </ListItem>
