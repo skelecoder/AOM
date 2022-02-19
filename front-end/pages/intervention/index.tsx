@@ -1,145 +1,164 @@
-import { Button, Checkbox, Dialog, DialogTitle, Grid, Paper, Typography } from '@mui/material';
-import { Box, display } from '@mui/system';
+import { Button, Checkbox, Dialog, DialogTitle, Grid, Paper, Typography, Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { useState } from 'react';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
+import WysiwygIcon from '@mui/icons-material/Wysiwyg';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import JoinRightIcon from '@mui/icons-material/JoinRight';
+import { useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { v4 as uuidv4 } from 'uuid';
 import PlanModal from 'components/planModal';
+import TraitModal from 'components/traitModal';
+
+const rows = [
+    {
+        id: uuidv4(),
+        col1: '001',
+        col2: '17 khossafat',
+        col3: 'En traitement',
+        col4: 'type1',
+        col5: '11/02/2021',
+        col6: 'Sous-type1',
+    },
+    {
+        id: uuidv4(),
+        col1: '002',
+        col2: '22 Dradeb',
+        col3: 'En traitement',
+        col4: 'type2',
+        col5: '10/03/2021',
+        col6: 'Sous-type2',
+    },
+    {
+        id: uuidv4(),
+        col1: '003',
+        col2: '57 Msala',
+        col3: 'Traité',
+        col4: 'type3',
+        col5: '11/02/2021',
+        col6: 'Sous-type3',
+    },
+    {
+        id: uuidv4(),
+        col1: '004',
+        col2: '65 bnimakada',
+        col3: 'En traitement',
+        col4: 'type4',
+        col5: '11/02/2021',
+        col6: 'Sous-type4',
+    },
+    {
+        id: uuidv4(),
+        col1: '005',
+        col2: '9 Avril',
+        col3: 'Traité',
+        col4: 'type1',
+        col5: '11/02/2022',
+        col6: 'Sous-type1',
+    },
+    {
+        id: uuidv4(),
+        col1: '006',
+        col2: 'Iberia',
+        col3: 'Traité',
+        col4: 'type2',
+        col5: '05/02/2021',
+        col6: 'Sous-type2',
+    },
+];
 
 const Intervention = () => {
     const [selection, setSelection] = useState([]);
     //const [getRow, setGetRow] = useState([]);
-    const [open, setOpen] = useState(false);
+    const [openPlanModal, setOpenPlanModal] = useState(false);
+    const [openTraitModal, setOpenTraitModal] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-    let ids = [];
-    const handelOpen = () => {
-        setOpen(true);
+    const [ids, setIds] = useState([]);
+
+    const handelOpenPlanModal = () => {
+        setOpenPlanModal(true);
     };
-    const handelClose = () => {
-        setOpen(false);
+    const handelClosePlanModal = () => {
+        setOpenPlanModal(false);
+    };
+
+    const handelOpenTraitModal = () => {
+        setOpenTraitModal(true);
+    };
+    const handelCloseTraitModal = () => {
+        setOpenTraitModal(false);
     };
 
     const handelChange = (e) => {
         if (e.target.checked) {
-            ids.push(e.target.value);
-            const selctedLists = rows.filter((row) => ids.includes(row.id.toString()));
-            //setSelection(selctedLists);
-            console.log(selctedLists);
-            console.log(ids);
-            selctedLists.length == 0 ? setIsDisabled(true) : setIsDisabled(false);
+            setIds([...ids, e.target.value]);
         } else {
-            ids = ids.filter((id) => id != e.target.value);
-            const selctedLists = rows.filter((row) => ids.includes(row.id.toString()));
-            //setSelection(selctedLists);
-            console.log(ids);
-            console.log(selctedLists);
-            //selctedLists.length == 0 ? setIsDisactivated(true) : setIsDisactivated(false);
+            const newIds = ids.filter((id) => id != e.target.value);
+            setIds(newIds);
         }
     };
+
+    useEffect(() => {
+        const selctedLists = rows.filter((row) => ids.includes(row.id));
+        setSelection(selctedLists);
+        console.log(selctedLists);
+        selctedLists.length == 0 ? setIsDisabled(true) : setIsDisabled(false);
+    }, [ids]);
 
     const handelSelectedRow = (ids) => {
         const selectedIDs = new Set(ids);
         const selectedRows = rows.filter((row) => selectedIDs.has(row.id));
-        setSelection(selectedRows);
-        selectedRows.length === 0 ? setIsDisabled(true) : setIsDisabled(false);
-        console.log(selectedRows);
-        console.log(selectedIDs);
+        const refAndAddress = selectedRows.map((employee) => {
+            let { id, col1, col2, col3, col4, col5, col6 } = employee;
+            let subset = { id, col1, col2 };
+            return subset;
+        });
+        setSelection(refAndAddress);
+        refAndAddress.length === 0 ? setIsDisabled(true) : setIsDisabled(false);
     };
-
-    const rows = [
-        {
-            id: 1,
-            col1: '001',
-            col2: '17 khossafat',
-            col3: 'En traitement',
-            col4: '11/02/2021',
-            col5: 'type1',
-            col6: 'Sous-type1',
-        },
-        {
-            id: 2,
-            col1: '002',
-            col2: '22 Dradeb',
-            col3: 'En traitement',
-            col4: '10/03/2021',
-            col5: 'type2',
-            col6: 'Sous-type2',
-        },
-        {
-            id: 3,
-            col1: '003',
-            col2: '57 Msala',
-            col3: 'Traité',
-            col4: '11/02/2021',
-            col5: 'type3',
-            col6: 'Sous-type3',
-        },
-        {
-            id: 4,
-            col1: '004',
-            col2: '65 bnimakada',
-            col3: 'En traitement',
-            col4: '11/02/2021',
-            col5: 'type4',
-            col6: 'Sous-type4',
-        },
-        {
-            id: 5,
-            col1: '005',
-            col2: '9 Avril',
-            col3: 'Traité',
-            col4: '11/02/2022',
-            col5: 'type1',
-            col6: 'Sous-type1',
-        },
-        {
-            id: 6,
-            col1: '006',
-            col2: 'Iberia',
-            col3: 'Traité',
-            col4: '05/02/2021',
-            col5: 'type2',
-            col6: 'Sous-type2',
-        },
-    ];
 
     const columns = [
         { field: 'col1', headerName: 'Référence', width: 200 },
         { field: 'col2', headerName: 'Addresse', width: 150 },
         { field: 'col3', headerName: 'Status', width: 100 },
-        { field: 'col4', headerName: 'Date Status', width: 150 },
-        { field: 'col5', headerName: 'Type', width: 100 },
+        { field: 'col4', headerName: 'Type', width: 100 },
+        { field: 'col5', headerName: 'Date Status', width: 150 },
         { field: 'col6', headerName: 'Sous-type', width: 100 },
     ];
 
     return (
         <>
-            <PlanModal handelClose={handelClose} open={open} selection={selection} />
+            <PlanModal handelClose={handelClosePlanModal} open={openPlanModal} selection={selection} />
+            <TraitModal handelClose={handelCloseTraitModal} open={openTraitModal} selection={selection} />
 
             <Typography variant="h4" sx={{ color: 'primary.main', mb: 2 }}>
                 Liste des interventions
             </Typography>
             <Box
                 sx={{
-                    display: 'flex',
+                    display: { xs: 'none', md: 'flex' },
                     flexDirection: { xs: 'column', md: 'row' },
                     gap: 1,
                     mb: 2,
+                    '& .MuiButton-root': { textTransform: 'capitalize' },
                 }}
             >
-                <Button href="/intervention/nouvelle" variant="contained" sx={{}} disabled={!isDisabled}>
+                <Button href="/intervention/nouvelle" variant="contained" disabled={!isDisabled}>
                     Nouvelle Intervention
                 </Button>
 
                 <Button variant="outlined" disabled={isDisabled}>
                     En Traitement
                 </Button>
-                <Button variant="outlined" disabled={isDisabled} onClick={handelOpen}>
+                <Button variant="outlined" disabled={isDisabled} onClick={handelOpenPlanModal}>
                     Planifier
                 </Button>
-                <Button variant="outlined" disabled={isDisabled}>
+                <Button variant="outlined" disabled={isDisabled} onClick={handelOpenTraitModal}>
                     Traité
                 </Button>
                 <Button variant="outlined" disabled={isDisabled}>
@@ -161,16 +180,16 @@ const Intervention = () => {
             >
                 <DataGrid rows={rows} columns={columns} checkboxSelection onSelectionModelChange={handelSelectedRow} />
             </Paper>
-            <Paper>
+            {/* <Paper>
                 {selection.map((item, index) => (
                     <pre key={index}>{JSON.stringify(item, null, 4)}</pre>
                 ))}
-            </Paper>
-            <Box>
+            </Paper> */}
+            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
                 {rows.map((row) => {
                     return (
                         <Paper key={row.id} sx={{ mb: 2, p: 2, display: 'flex', alignItems: 'flex-start' }}>
-                            <Checkbox value={row.id} onChange={(e) => handelChange(e)} />
+                            <Checkbox value={row.id} onChange={handelChange} />
                             <Box sx={{ mt: 1 }}>
                                 <Typography>Reference: {row.col1}</Typography>
                                 <Typography>Addresse: {row.col2}</Typography>
@@ -182,6 +201,40 @@ const Intervention = () => {
                         </Paper>
                     );
                 })}
+            </Box>
+            <Box
+                sx={{
+                    display: { xs: 'flex', md: 'none' },
+                    justifyContent: 'flex-start',
+                    position: 'fixed',
+                    bottom: '0',
+                    width: 2 / 2,
+                    backgroundColor: 'primary.main',
+                    p: 2,
+                    '& .MuiButton-root': { textTransform: 'capitalize', display: 'flex', flexDirection: 'column',color:'#fff' },
+                }}
+            >
+                <Button href="/intervention/nouvelle" variant="contained" disabled={!isDisabled} size="small">
+                    <AddCircleOutlineIcon />
+                    nouvelle
+                </Button>
+
+                <Button size="small" variant="text" disabled={isDisabled}>
+                    <PendingOutlinedIcon />
+                    en traitement
+                </Button>
+                <Button size="small" variant="text" disabled={isDisabled} onClick={handelOpenPlanModal}>
+                    <WysiwygIcon />planifier
+                </Button>
+                <Button size="small" variant="text" disabled={isDisabled} onClick={handelOpenTraitModal}>
+                    <LocalOfferIcon />traitées
+                </Button>
+                <Button size="small" variant="text" disabled={isDisabled}>
+                    <CheckCircleIcon />valider
+                </Button>
+                <Button size="small" variant="text" disabled={isDisabled}>
+                    <JoinRightIcon />attachement
+                </Button>
             </Box>
         </>
     );

@@ -102,8 +102,6 @@ const Layout = ({ children }) => {
         </div>
     );
 
-    //const container = window !== undefined ? () => window().document.body : undefined;
-
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -136,7 +134,6 @@ const Layout = ({ children }) => {
             >
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Drawer
-                    //container={container}
                     variant="temporary"
                     open={mobileOpen}
                     onClose={handleDrawerToggle}
@@ -168,7 +165,7 @@ const Layout = ({ children }) => {
                     p: 3,
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     backgroundColor: (theme) => theme.palette.grey[100],
-                    height: '100vh',
+                    height: 'auto',
                 }}
             >
                 <Toolbar />
