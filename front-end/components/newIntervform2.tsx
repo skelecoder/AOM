@@ -123,7 +123,7 @@ const IntervForm2 = ({cancelForm2}) => {
                     </Grid>
                 ))}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button variant="outlined" onClick={() =>cancelForm2('cancelForm')}>
+                    <Button sx={{borderColor:'text.disabled', color:'#222'}} variant="outlined" onClick={() =>cancelForm2('cancelForm')}>
                         Annuler
                     </Button>
                     <Button variant="contained" color="primary" sx={{ ml: 2 }}>

@@ -1,18 +1,19 @@
 import { Button, Checkbox, Dialog, DialogTitle, Grid, Paper, Typography } from '@mui/material';
 import { Box, display } from '@mui/system';
 import { DataGrid } from '@mui/x-data-grid';
-import { useState} from 'react';
+import { useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import PlanModal from 'components/planModal';
 
 const Intervention = () => {
     const [selection, setSelection] = useState([]);
     //const [getRow, setGetRow] = useState([]);
     const [open, setOpen] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
-    let ids=[]
+    let ids = [];
     const handelOpen = () => {
         setOpen(true);
     };
@@ -22,7 +23,7 @@ const Intervention = () => {
 
     const handelChange = (e) => {
         if (e.target.checked) {
-            ids.push(e.target.value)
+            ids.push(e.target.value);
             const selctedLists = rows.filter((row) => ids.includes(row.id.toString()));
             //setSelection(selctedLists);
             console.log(selctedLists);
@@ -115,17 +116,8 @@ const Intervention = () => {
 
     return (
         <>
-            <Dialog onClose={handelClose} open={open}>
-                <Paper>
-                    <List>
-                        {selection.map((item) => (
-                            <ListItem button key={item.id}>
-                                <ListItemText primary={item.col1} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Paper>
-            </Dialog>
+            <PlanModal handelClose={handelClose} open={open} selection={selection} />
+
             <Typography variant="h4" sx={{ color: 'primary.main', mb: 2 }}>
                 Liste des interventions
             </Typography>
@@ -137,7 +129,7 @@ const Intervention = () => {
                     mb: 2,
                 }}
             >
-                <Button href='/intervention/nouvelle' variant="contained" sx={{}} disabled={!isDisabled}>
+                <Button href="/intervention/nouvelle" variant="contained" sx={{}} disabled={!isDisabled}>
                     Nouvelle Intervention
                 </Button>
 

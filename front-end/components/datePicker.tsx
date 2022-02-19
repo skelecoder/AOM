@@ -1,25 +1,26 @@
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
-import { fr } from "date-fns/locale"
+import { fr } from 'date-fns/locale';
 
 const convertToDefEventPara = (name, value) => ({
     target: {
-        name, value
-    }
-})
+        name,
+        value,
+    },
+});
 
-const DatePickerInput = ({value,id, changeEvent, isDisabled}) => {
+const DatePickerInput = ({ value, id, changeEvent, isDisabled }) => {
     return (
         <MuiPickersUtilsProvider locale={fr} utils={DateFnsUtils}>
             <DatePicker
                 disableToolbar
-                variant="dialog"
+                variant='dialog'
                 inputVariant="outlined"
                 label="date"
                 format="dd/MMM/yyyy"
                 name="date"
                 value={value}
-                onChange={(date) => changeEvent(id,convertToDefEventPara('date', date))}
+                onChange={(date) => changeEvent(id, convertToDefEventPara('date', date))}
                 fullWidth
                 disabled={isDisabled}
             />
