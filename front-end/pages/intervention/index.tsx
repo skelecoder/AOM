@@ -1,4 +1,4 @@
-import { Button, Checkbox, Dialog, DialogTitle, Grid, Paper, Typography, Box } from '@mui/material';
+import { Button, Checkbox,Paper, Typography, Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
@@ -7,10 +7,6 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import JoinRightIcon from '@mui/icons-material/JoinRight';
 import { useEffect, useState } from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import { v4 as uuidv4 } from 'uuid';
 import PlanModal from 'components/planModal';
 import TraitModal from 'components/traitModal';
@@ -74,7 +70,6 @@ const rows = [
 
 const Intervention = () => {
     const [selection, setSelection] = useState([]);
-    //const [getRow, setGetRow] = useState([]);
     const [openPlanModal, setOpenPlanModal] = useState(false);
     const [openTraitModal, setOpenTraitModal] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
@@ -106,8 +101,9 @@ const Intervention = () => {
     useEffect(() => {
         const selctedLists = rows.filter((row) => ids.includes(row.id));
         setSelection(selctedLists);
-        console.log(selctedLists);
+        console.log('selected list', selctedLists);
         selctedLists.length == 0 ? setIsDisabled(true) : setIsDisabled(false);
+
     }, [ids]);
 
     const handelSelectedRow = (ids) => {
@@ -186,6 +182,10 @@ const Intervention = () => {
                 ))}
             </Paper> */}
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                <Paper>
+                <Typography sx={{color:'primary.main',p:2, fontWeight:'bold'}}>{ids.length} Element(s) Sélectionée(s) </Typography>
+                </Paper>
+                
                 {rows.map((row) => {
                     return (
                         <Paper key={row.id} sx={{ mb: 2, p: 2, display: 'flex', alignItems: 'flex-start' }}>

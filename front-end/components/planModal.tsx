@@ -23,7 +23,7 @@ const PlanModal = ({ handelClose, open, selection }) => {
                             </ListItem>
                         ))}
                     </List>
-                    <Typography sx={{color:'primary.main', mb:2}}>{selection.length} références séléctionées</Typography>
+                    <Typography sx={{color:'primary.main', mb:2, fontWeight:'bold'}}>{selection.length} Référence(s) Séléctionée(s)</Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                     <Button sx={{borderColor:'text.disabled', color:'#222'}} variant="outlined" onClick={handelClose}>
                         Annuler

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton, Paper, TextField } from '@mui/material';
+import { Box, Button, Divider, Grid, IconButton, Paper, TextField } from '@mui/material';
 import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { v4 as uuidv4 } from 'uuid';
@@ -58,7 +58,8 @@ const IntervForm1 = ({cancelForm1}) => {
         >
             <form>
                 {inputFields.map((inputField) => (
-                    <Grid container spacing={2}>
+                    <>
+                    <Grid container spacing={1} key={inputField.id}>
                         <Grid item xs={12} md={5}>
                             <TextField
                                 sx={{ mr: 2, mb: 2 }}
@@ -92,6 +93,15 @@ const IntervForm1 = ({cancelForm1}) => {
                             />
                         </Grid>
                     </Grid>
+                    <Divider
+                    sx={{
+                        display: { xs: 'block', md: 'none' },
+                        transform: 'translateY(-15px)',
+                        backgroundColor: 'primary.main',
+                        height:'5px'
+                    }}
+                    />
+                    </>
                 ))}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button sx={{borderColor:'text.disabled', color:'#222'}} variant="outlined" onClick={() =>cancelForm1('cancelForm')}>

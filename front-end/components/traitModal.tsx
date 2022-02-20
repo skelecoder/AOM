@@ -1,10 +1,6 @@
 import {
     Dialog,
     DialogTitle,
-    List,
-    ListItem,
-    ListItemText,
-    Paper,
     Typography,
     Box,
     Button,
@@ -16,105 +12,20 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
+    Grid,
+    Divider,
+    Paper,
 } from '@mui/material';
-import DatePickerInput from './datePicker';
-import { useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import { v4 as uuidv4 } from 'uuid';
-
-const initialFValues = [
-    {
-        id: uuidv4(),
-        refection: '',
-        type: '',
-        date: new Date(),
-    },
-];
+import DatePicker from './datePicker';
 
 const TraitModal = ({ handelClose, open, selection }) => {
-    // const [inputFields, setInputFields] = useState(initialFValues);
-
-    
-
-    // const handleChangeInput = (id, event) => {
-    //     const newInputFields = inputFields.map((field) => {
-    //         if (id === field.id) {
-    //             field[event.target.name] = event.target.value;
-    //         }
-    //         return field;
-    //     });
-
-    //     setInputFields(newInputFields);
-    // };
-
-
-    const columns = [
-        { field: 'col1', headerName: 'Référence', width: 150 },
-        { field: 'col2', headerName: 'Address', width: 150 },
-        {
-            field: 'col3',
-            renderCell: (cellValues) => {
-                return (
-                    <FormControl>
-                        <RadioGroup
-                            row={true}
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            defaultValue="female"
-                            name="radio-buttons-group"
-                        >
-                            <FormControlLabel value="female" control={<Radio />} label="Oui" />
-                            <FormControlLabel value="male" control={<Radio />} label="No" />
-                        </RadioGroup>
-                    </FormControl>
-                );
-            },
-            headerName: 'Refection',
-            width: 170,
-        },
-        {
-            field: 'col4',
-            renderCell: (cellValues) => {
-                return (
-                    <FormControl sx={{ width: '200px' }}>
-                        <Select onChange={()=> console.log(cellValues)}>
-                            <MenuItem value="type1">Type1</MenuItem>
-                            <MenuItem value="type2">Type2</MenuItem>
-                        </Select>
-                    </FormControl>
-                );
-            },
-            headerName: 'Type',
-            width: 150,
-        },
-        {
-            field: 'col5',
-            renderCell: (cellValues) => {
-                return (
-                    <DatePickerInput
-                    id=""
-                    value=""
-                    changeEvent=""
-                    isDisabled=""
-                />
-                );
-            },
-            headerName: 'Date',
-            width: 200,
-        },
-    ];
-
     const rows = [...selection];
-    // const newRows = rows.map(option => {
-    //     // New properties to be added
-    //     const newPropsObj = {
-    //       col3:'value1',
-    //       col4:'value2',
-    //       col5:'value3'
-    //     };
 
-    //     // Assign new properties and return
-    //     return Object.assign(option, newPropsObj);
-    //   });
+    const newSelection = rows.map((slc) => {
+        return { id: slc.id, reference: slc.col1, address: slc.col2, refection: 'non', type: '', date: new Date() };
+    });
+
+    const handleChangeInput = (id, event) => {};
 
     return (
         <Dialog
@@ -126,15 +37,130 @@ const TraitModal = ({ handelClose, open, selection }) => {
             <form>
                 <Paper
                     sx={{
-                        height: '500px',
-                        display: { xs: 'none', md: 'block' },
                         '& .css-1jbbcbn-MuiDataGrid-columnHeaderTitle': {
                             color: 'primary.main',
                             fontWeight: 'bold',
                         },
+                        '& .MuiInputBase-input': { padding: '6px 5px 7px' },
                     }}
                 >
-                    <DataGrid rows={rows} columns={columns} />
+                    <Grid
+                        container
+                        spacing={1}
+                        sx={{
+                            '& .css-ahj2mt-MuiTypography-root': { color: 'primary.main', mb: 1 },
+                            display: { xs: 'none', md: 'flex' },
+                        }}
+                    >
+                        <Grid item xs={12} md={3}>
+                            <Typography>Référence</Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                            <Typography>Address</Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2.5}>
+                            <Typography>Refection</Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                            <Typography>Type</Typography>
+                        </Grid>
+                        <Grid item xs={12} md={2.5}>
+                            <Typography>Date</Typography>
+                        </Grid>
+                    </Grid>
+                    {newSelection.map((inputField) => (
+                        <>
+                            <Grid
+                                container
+                                spacing={{ xs: 3, md: 1 }}
+                                key={inputField.id}
+                                sx={{
+                                    mb: { xs: 5, md: 0 },
+                                    '& .MuiInputLabel-outlined': {
+                                        transform: 'translateY( -20px)',
+                                        display: { xs: 'block', md: 'none' },
+                                        color: 'primary.main',
+                                    },
+                                }}
+                            >
+                                <Grid item xs={12} md={3}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>Reférence</InputLabel>
+                                        <TextField
+                                            name="reference"
+                                            value={inputField.reference}
+                                            variant="outlined"
+                                            onChange={(e) => handleChangeInput(inputField.id, e)}
+                                            fullWidth
+                                            size="small"
+                                            disabled
+                                        />
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12} md={2}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>Address</InputLabel>
+                                        <TextField
+                                            name="address"
+                                            value={inputField.address}
+                                            variant="outlined"
+                                            onChange={(e) => handleChangeInput(inputField.id, e)}
+                                            disabled
+                                        />
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12} md={2.3}>
+                                    <FormControl sx={{ transform: { xs: 'translateY(2px)', md: 'translateY(-5px)' } }}>
+                                        <InputLabel>Refection</InputLabel>
+                                        <RadioGroup
+                                            aria-labelledby="demo-radio-buttons-group-label"
+                                            defaultValue="non"
+                                            name="radio-buttons-group"
+                                            value={inputField.refection}
+                                            onChange={(e) => handleChangeInput(inputField.id, e)}
+                                            row
+                                        >
+                                            <FormControlLabel value="oui" control={<Radio />} label="Oui" />
+                                            <FormControlLabel value="non" control={<Radio />} label="Non" />
+                                        </RadioGroup>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12} md={2}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>Type</InputLabel>
+                                        <Select
+                                            value={inputField.type}
+                                            name="type"
+                                            onChange={(e) => handleChangeInput(inputField.id, e)}
+                                            fullWidth
+                                        >
+                                            <MenuItem value="branchement neuf">Type1</MenuItem>
+                                            <MenuItem value="reclamation">Type2</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12} md={2.5}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>Date</InputLabel>
+                                        <DatePicker
+                                            id={inputField.id}
+                                            value={inputField.date}
+                                            changeEvent={handleChangeInput}
+                                            isDisabled={false}
+                                        />
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                            <Divider
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                    transform: 'translateY(-25px)',
+                                    backgroundColor: 'primary.main',
+                                    height: '5px',
+                                }}
+                            />
+                        </>
+                    ))}
                 </Paper>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 2, mb: 2 }}>
                     <Button

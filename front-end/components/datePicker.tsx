@@ -16,7 +16,7 @@ const DatePickerInput = ({ value, id, changeEvent, isDisabled }) => {
                 disableToolbar
                 variant='dialog'
                 inputVariant="outlined"
-                label="date"
+                
                 format="dd/MMM/yyyy"
                 name="date"
                 value={value}
