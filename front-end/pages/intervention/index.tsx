@@ -73,6 +73,7 @@ const Intervention = () => {
     const [openPlanModal, setOpenPlanModal] = useState(false);
     const [openTraitModal, setOpenTraitModal] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
+    const [showSelectedCount, setShowSelectedCount]=useState('none')
     const [ids, setIds] = useState([]);
 
     const handelOpenPlanModal = () => {
@@ -103,7 +104,7 @@ const Intervention = () => {
         setSelection(selctedLists);
         console.log('selected list', selctedLists);
         selctedLists.length == 0 ? setIsDisabled(true) : setIsDisabled(false);
-
+        selctedLists.length == 0 ? setShowSelectedCount('none') : setShowSelectedCount('block');
     }, [ids]);
 
     const handelSelectedRow = (ids) => {
@@ -181,8 +182,8 @@ const Intervention = () => {
                     <pre key={index}>{JSON.stringify(item, null, 4)}</pre>
                 ))}
             </Paper> */}
-            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-                <Paper>
+            <Box sx={{ display: { xs: 'block', md: 'none'}, paddingBottom:'200px' }}>
+                <Paper sx={{position:'fixed', bottom:160, width:2/2, zIndex:55, display:showSelectedCount}}>
                 <Typography sx={{color:'primary.main',p:2, fontWeight:'bold'}}>{ids.length} Element(s) Sélectionée(s) </Typography>
                 </Paper>
                 
