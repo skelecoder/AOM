@@ -34,7 +34,7 @@ const Layout = ({ children }) => {
             path: '/dashboard',
         },
         {
-            text: 'Intervention',
+            text: 'Interventions',
             icon: <AssignmentReturnedIcon />,
             path: '/intervention',
         },
