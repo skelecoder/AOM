@@ -188,7 +188,7 @@ const Intervention = () => {
                 
                 {rows.map((row) => {
                     return (
-                        <Paper key={row.id} sx={{ mb: 2, p: 2, display: 'flex', alignItems: 'flex-start' }}>
+                        <Paper key={row.id} sx={{ mb: 2, p: 2, display: 'flex', alignItems: 'flex-start',backgroundColor:({palette})=> ids.includes(row.id) ? palette.grey[300] : ''}}>
                             <Checkbox value={row.id} onChange={handelChange} />
                             <Box sx={{ mt: 1 }}>
                                 <Typography>Reference: {row.col1}</Typography>
@@ -205,20 +205,22 @@ const Intervention = () => {
             <Box
                 sx={{
                     display: { xs: 'flex', md: 'none' },
-                    justifyContent: 'flex-start',
+                    flexDirection:'column',         
+                    gap:2,
                     position: 'fixed',
                     bottom: '0',
-                    width: 2 / 2,
+                    width: {xs:2/2, sm:'calc(100% - 240px)'},
                     backgroundColor: 'primary.main',
-                    p: 2,
+                    py:2,
                     '& .MuiButton-root': { textTransform: 'capitalize', display: 'flex', flexDirection: 'column',color:'#fff' },
+                    '& .MuiButton-text':{fontSize:'11px'}
                 }}
             >
-                <Button href="/intervention/nouvelle" variant="contained" disabled={!isDisabled} size="small">
+                <Button href="/intervention/nouvelle" variant="contained" disabled={!isDisabled} size="large">
                     <AddCircleOutlineIcon />
-                    nouvelle
+                    nouvelle intervention
                 </Button>
-
+                <Box sx={{display:'flex', justifyContent:'center', alignItems: 'center'}}>
                 <Button size="small" variant="text" disabled={isDisabled}>
                     <PendingOutlinedIcon />
                     en traitement
@@ -235,6 +237,7 @@ const Intervention = () => {
                 <Button size="small" variant="text" disabled={isDisabled}>
                     <JoinRightIcon />attachement
                 </Button>
+                </Box>
             </Box>
         </>
     );

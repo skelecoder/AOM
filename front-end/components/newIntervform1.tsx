@@ -20,9 +20,11 @@ const initialFValues = [
         isDisabled: true,
     },
 ];
-const IntervForm1 = ({cancelForm1}) => {
+const IntervForm1 = ({ cancelForm1 }) => {
     const [inputFields, setInputFields] = useState(initialFValues);
-    
+    const [btnPos, setBtnPos] = useState(0);
+    const [btnPosMob, setBtnPosMob] = useState(0);
+
     const handelAddClick = () => {
         const newFields = [...inputFields];
         newFields.splice(newFields.length - 1, 0, {
@@ -33,6 +35,8 @@ const IntervForm1 = ({cancelForm1}) => {
             isDisabled: false,
         });
         setInputFields(newFields);
+        setBtnPos((prevState) => prevState + 72);
+        setBtnPosMob((prevState) => prevState + 221);
     };
 
     const handleChangeInput = (id, event) => {
@@ -54,57 +58,60 @@ const IntervForm1 = ({cancelForm1}) => {
                 gap: 2,
                 alignItems: 'flex-start',
                 justifyContent: 'flex-start',
+                '& > :first-child > :nth-last-child(3)': { display: { xs: 'none', md: 'flex' } },
             }}
         >
             <form>
                 {inputFields.map((inputField) => (
                     <>
-                    <Grid container spacing={1} key={inputField.id}>
-                        <Grid item xs={12} md={5}>
-                            <TextField
-                                sx={{ mr: 2, mb: 2 }}
-                                label="Address"
-                                name="address"
-                                value={inputField.address}
-                                variant="outlined"
-                                onChange={(e) => handleChangeInput(inputField.id, e)}
-                                fullWidth
-                                disabled={inputField.isDisabled}
-                            />
+                        <Grid container spacing={1} key={inputField.id} sx={{ mb: { xs: 4, md: 2 } }}>
+                            <Grid item xs={12} md={5}>
+                                <TextField
+                                    label="Address"
+                                    name="address"
+                                    value={inputField.address}
+                                    variant="outlined"
+                                    onChange={(e) => handleChangeInput(inputField.id, e)}
+                                    fullWidth
+                                    disabled={inputField.isDisabled}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={3}>
+                                <TextField
+                                    label="Code Projet"
+                                    name="projectCode"
+                                    value={inputField.projectCode}
+                                    variant="outlined"
+                                    onChange={(e) => handleChangeInput(inputField.id, e)}
+                                    fullWidth
+                                    disabled={inputField.isDisabled}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <DatePicker
+                                    id={inputField.id}
+                                    value={inputField.date}
+                                    changeEvent={handleChangeInput}
+                                    isDisabled={inputField.isDisabled}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} md={3}>
-                            <TextField
-                                sx={{ mb: 2, mr: 2 }}
-                                label="Code Projet"
-                                name="projectCode"
-                                value={inputField.projectCode}
-                                variant="outlined"
-                                onChange={(e) => handleChangeInput(inputField.id, e)}
-                                fullWidth
-                                disabled={inputField.isDisabled}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={4} sx={{ mb: 4 }}>
-                            <DatePicker
-                                id={inputField.id}
-                                value={inputField.date}
-                                changeEvent={handleChangeInput}
-                                isDisabled={inputField.isDisabled}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Divider
-                    sx={{
-                        display: { xs: 'block', md: 'none' },
-                        transform: 'translateY(-15px)',
-                        backgroundColor: 'primary.main',
-                        height:'5px'
-                    }}
-                    />
+                        <Divider
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                                transform: 'translateY(-15px)',
+                                backgroundColor: 'primary.main',
+                                height: '5px',
+                            }}
+                        />
                     </>
                 ))}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button sx={{borderColor:'text.disabled', color:'#222'}} variant="outlined" onClick={() =>cancelForm1('cancelForm')}>
+                    <Button
+                        sx={{ borderColor: 'text.disabled', color: '#222' }}
+                        variant="outlined"
+                        onClick={() => cancelForm1('cancelForm')}
+                    >
                         Annuler
                     </Button>
                     <Button variant="contained" color="primary" sx={{ ml: 2 }}>
@@ -112,8 +119,11 @@ const IntervForm1 = ({cancelForm1}) => {
                     </Button>
                 </Box>
             </form>
-            <IconButton onClick={handelAddClick}>
-                <AddCircleIcon fontSize="large" sx={{ color: 'primary.main' }} />
+            <IconButton onClick={handelAddClick} sx={{ position: 'relative', top: { xs: btnPosMob, md: btnPos }}}>
+                <AddCircleIcon
+                    fontSize="large"
+                    sx={{ color: 'primary.main'}}
+                />
             </IconButton>
         </Paper>
     );
