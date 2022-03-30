@@ -14,7 +14,7 @@ services:
     ports:
       - '1337:1337'
     depends_on:
-      - postgres
+      - postgres_amanor
 
   postgres_amanor:
     image: postgres
@@ -24,3 +24,5 @@ services:
       POSTGRES_PASSWORD: amanor
     volumes:
       - ./data:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'
