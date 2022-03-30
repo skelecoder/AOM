@@ -3,7 +3,5 @@ services:
   amanorwm:
     build: ./
     container_name: amanorwm
-    environment:
-      ELASTICSEARCH_HOST: "elasticsearch"
     ports:
       - "3030:3000"
