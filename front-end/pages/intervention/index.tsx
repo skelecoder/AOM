@@ -13,7 +13,7 @@ import TraitModal from 'components/traitModal';
 
 const rows = [
     {
-        id: uuidv4(),
+        id: 1,
         col1: '001',
         col2: '17 khossafat',
         col3: 'En traitement',
@@ -22,7 +22,7 @@ const rows = [
         col6: 'Sous-type1',
     },
     {
-        id: uuidv4(),
+        id: 2,
         col1: '002',
         col2: '22 Dradeb',
         col3: 'En traitement',
@@ -31,7 +31,7 @@ const rows = [
         col6: 'Sous-type2',
     },
     {
-        id: uuidv4(),
+        id: 3,
         col1: '003',
         col2: '57 Msala',
         col3: 'Traité',
@@ -40,7 +40,7 @@ const rows = [
         col6: 'Sous-type3',
     },
     {
-        id: uuidv4(),
+        id: 4,
         col1: '004',
         col2: '65 bnimakada',
         col3: 'En traitement',
@@ -49,7 +49,7 @@ const rows = [
         col6: 'Sous-type4',
     },
     {
-        id: uuidv4(),
+        id: 5,
         col1: '005',
         col2: '9 Avril',
         col3: 'Traité',
@@ -58,7 +58,7 @@ const rows = [
         col6: 'Sous-type1',
     },
     {
-        id: uuidv4(),
+        id: 6,
         col1: '006',
         col2: 'Iberia',
         col3: 'Traité',

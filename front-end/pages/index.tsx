@@ -7,23 +7,17 @@ const uri = process.env.MONGODB_URI;
 
 import Dashboard from 'components/dashboard/Dashboard';
 
-const Index = (props: any) => {
-    return <h1>Index</h1>
-} 
+const Index = (props: any) => <Dashboard  />;
+export const getServerSideProps: GetServerSideProps<any> = async () => {
+    // const mongo = new MongodbService();
 
-//<Dashboard articles={props.articles} reception={props} delivery={props} />;
-
-// export const getServerSideProps: GetServerSideProps<any> = async () => {
-//     const es = new ElasticsearchService();
-//     const mongo = new MongodbService();
-
-//     const articles = await mongo.getArticles();
-
-//     return {
-//         props: {
-//             articles: JSON.parse(JSON.stringify(articles)),
-//         },
-//     };
-// };
+    // const articles = await mongo.getArticles();
+    
+    return {
+        props: {
+            // articles: JSON.parse(JSON.stringify(articles)),
+        },
+    };
+};
 
 export default Index;

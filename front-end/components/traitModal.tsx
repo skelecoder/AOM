@@ -16,16 +16,29 @@ import {
     Divider,
     Paper,
 } from '@mui/material';
+import { useState } from 'react';
 import DatePicker from './datePicker';
 
 const TraitModal = ({ handelClose, open, selection }) => {
+    
     const rows = [...selection];
 
     const newSelection = rows.map((slc) => {
         return { id: slc.id, reference: slc.col1, address: slc.col2, refection: 'non', type: '', date: new Date() };
     });
 
-    const handleChangeInput = (id, event) => {};
+    //const [inputFields, setInputFields] = useState(newSelection);
+
+    const handleChangeInput = (id, event) => {
+        // const newInputFields = inputFields.map((field) => {
+        //     if (id === field.id) {
+        //         field[event.target.name] = event.target.value;
+        //     }
+        //     return field;
+        // });
+
+        // setInputFields(newInputFields);
+    };
 
     return (
         <Dialog
