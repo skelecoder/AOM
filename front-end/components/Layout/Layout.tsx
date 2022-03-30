@@ -162,7 +162,7 @@ const Layout = ({ children }) => {
                 component="main"
                 sx={{
                     flexGrow: 1,
-                    p: 3,
+                    p:{xs:1, md:3},
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     backgroundColor: (theme) => theme.palette.grey[100],
                     height: 'auto',

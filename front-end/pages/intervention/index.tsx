@@ -73,6 +73,7 @@ const Intervention = () => {
     const [openPlanModal, setOpenPlanModal] = useState(false);
     const [openTraitModal, setOpenTraitModal] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
+    const [showSelectedCount, setShowSelectedCount]=useState('none')
     const [ids, setIds] = useState([]);
 
     const handelOpenPlanModal = () => {
@@ -103,7 +104,7 @@ const Intervention = () => {
         setSelection(selctedLists);
         console.log('selected list', selctedLists);
         selctedLists.length == 0 ? setIsDisabled(true) : setIsDisabled(false);
-
+        selctedLists.length == 0 ? setShowSelectedCount('none') : setShowSelectedCount('block');
     }, [ids]);
 
     const handelSelectedRow = (ids) => {
@@ -181,14 +182,14 @@ const Intervention = () => {
                     <pre key={index}>{JSON.stringify(item, null, 4)}</pre>
                 ))}
             </Paper> */}
-            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-                <Paper>
+            <Box sx={{ display: { xs: 'block', md: 'none'}, paddingBottom:'200px' }}>
+                <Paper sx={{position:'fixed', bottom:160, width:2/2, zIndex:55, display:showSelectedCount}}>
                 <Typography sx={{color:'primary.main',p:2, fontWeight:'bold'}}>{ids.length} Element(s) Sélectionée(s) </Typography>
                 </Paper>
                 
                 {rows.map((row) => {
                     return (
-                        <Paper key={row.id} sx={{ mb: 2, p: 2, display: 'flex', alignItems: 'flex-start' }}>
+                        <Paper key={row.id} sx={{ mb: 2, p: 2, display: 'flex', alignItems: 'flex-start',backgroundColor:({palette})=> ids.includes(row.id) ? palette.grey[300] : ''}}>
                             <Checkbox value={row.id} onChange={handelChange} />
                             <Box sx={{ mt: 1 }}>
                                 <Typography>Reference: {row.col1}</Typography>
@@ -205,20 +206,22 @@ const Intervention = () => {
             <Box
                 sx={{
                     display: { xs: 'flex', md: 'none' },
-                    justifyContent: 'flex-start',
+                    flexDirection:'column',         
+                    gap:2,
                     position: 'fixed',
                     bottom: '0',
-                    width: 2 / 2,
+                    width: {xs:2/2, sm:'calc(100% - 240px)'},
                     backgroundColor: 'primary.main',
-                    p: 2,
+                    py:2,
                     '& .MuiButton-root': { textTransform: 'capitalize', display: 'flex', flexDirection: 'column',color:'#fff' },
+                    '& .MuiButton-text':{fontSize:'11px'}
                 }}
             >
-                <Button href="/intervention/nouvelle" variant="contained" disabled={!isDisabled} size="small">
+                <Button href="/intervention/nouvelle" variant="contained" disabled={!isDisabled} size="large">
                     <AddCircleOutlineIcon />
-                    nouvelle
+                    nouvelle intervention
                 </Button>
-                
+                <Box sx={{display:'flex', justifyContent:'center', alignItems: 'center'}}>
                 <Button size="small" variant="text" disabled={isDisabled}>
                     <PendingOutlinedIcon />
                     en traitement
@@ -235,6 +238,7 @@ const Intervention = () => {
                 <Button size="small" variant="text" disabled={isDisabled}>
                     <JoinRightIcon />attachement
                 </Button>
+                </Box>
             </Box>
         </>
     );

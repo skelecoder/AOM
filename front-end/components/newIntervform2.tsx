@@ -37,6 +37,8 @@ const IntervForm2 = ({ cancelForm2 }) => {
     ];
 
     const [inputFields, setInputFields] = useState(initialFValues);
+    const [btnPos, setBtnPos] = useState(0);
+    const [btnPosMob, setBtnPosMob] = useState(0);
 
     const handelAddClick = () => {
         const newFields = [...inputFields];
@@ -50,6 +52,8 @@ const IntervForm2 = ({ cancelForm2 }) => {
         });
 
         setInputFields(newFields);
+        setBtnPos((prevState) => prevState + 76);
+        setBtnPosMob((prevState) => prevState + 289);
     };
 
     const handleChangeInput = (id, event) => {
@@ -71,15 +75,15 @@ const IntervForm2 = ({ cancelForm2 }) => {
                 gap: 2,
                 alignItems: 'flex-start',
                 justifyContent: 'flex-start',
+                '& > :first-child > :nth-last-child(3)': { display: { xs: 'none', md: 'flex' } },
             }}
         >
             <form>
                 {inputFields.map((inputField) => (
                     <>
-                        <Grid container spacing={1} key={inputField.id}>
+                        <Grid container spacing={1} key={inputField.id} sx={{ mb: { xs: 4, md: 2 } }}>
                             <Grid item xs={12} md={5}>
                                 <TextField
-                                    sx={{ mr: 2, mb: 2 }}
                                     label="Address"
                                     name="address"
                                     value={inputField.address}
@@ -107,7 +111,6 @@ const IntervForm2 = ({ cancelForm2 }) => {
                             </Grid>
                             <Grid item xs={12} md={2}>
                                 <TextField
-                                    sx={{ mb: 2, mr: 2 }}
                                     label="Note"
                                     name="note"
                                     type="number"
@@ -118,7 +121,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     disabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={3} sx={{ mb: 4 }}>
+                            <Grid item xs={12} md={3}>
                                 <DatePicker
                                     id={inputField.id}
                                     value={inputField.date}
@@ -150,8 +153,11 @@ const IntervForm2 = ({ cancelForm2 }) => {
                     </Button>
                 </Box>
             </form>
-            <IconButton onClick={handelAddClick}>
-                <AddCircleIcon fontSize="large" sx={{ color: 'primary.main' }} />
+            <IconButton onClick={handelAddClick} sx={{ position: 'relative', top: { xs: btnPosMob, md: btnPos }}}>
+                <AddCircleIcon
+                    fontSize="large"
+                    sx={{ color: 'primary.main' }}
+                />
             </IconButton>
         </Paper>
     );
