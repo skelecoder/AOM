@@ -77,60 +77,61 @@ const items: Item[] = [
 const Articles = (props: { data: any }) => (
     <>
         {/* Chart */}
-        <Grid item xs={12} md={12}>
-            <Paper
-                sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 800,
-                }}
-            >
-                <Toolbar>
-                    <Button variant={'outlined'} sx={{ mr: 2 }}>
-                        Nouvel article
-                    </Button>
-                </Toolbar>
-                <DataGrid
-                    rows={items}
-                    autoPageSize
-                    columns={[
-                        // column definition example
-                        {
-                            field: 'name',
-                            headerName: 'Article',
-                            filterable: true,
-                            width: 400,
-                        },
-                        {
-                            field: 'model',
-                            headerName: 'Reference',
-                            filterable: true,
-                            width: 150,
-                        },
-                        {
-                            field: 'price',
-                            headerName: 'Prix',
-                            filterable: true,
-                            width: 150,
-                        },
-                        {
-                            field: 'qty',
-                            headerName: 'Quantité',
-                            filterable: true,
-                            width: 100,
-                        },
-                        {
-                            field: 'unity',
-                            headerName: 'Unité',
-                            filterable: true,
-                            width: 400,
-                        },
-                    ]}
-                    checkboxSelection
-                />
-            </Paper>
-        </Grid>
+            <Grid item xs={12} md={12}>
+                <Paper
+                    sx={{
+                        p: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: 800,
+                    }}
+                >
+                    <Toolbar>
+                        <Button variant={'outlined'} sx={{ mr: 2 }}>
+                            Nouvel article
+                        </Button>
+                    </Toolbar>
+                    <DataGrid
+                        rows={items}
+                        autoPageSize
+                        columns={[
+                            // column definition example
+                            {
+                                field: 'name',
+                                headerName: 'Article',
+                                filterable: true,
+                                width: 400,
+                            },
+                            {
+                                field: 'model',
+                                headerName: 'Reference',
+                                filterable: true,
+                                width: 150,
+                            },
+                            {
+                                field: 'price',
+                                headerName: 'Prix',
+                                filterable: true,
+                                width: 150,
+                            },
+                            {
+                                field: 'qty',
+                                headerName: 'Quantité',
+                                filterable: true,
+                                width: 100,
+                            },
+                            {
+                                field: 'unity',
+                                headerName: 'Unité',
+                                filterable: true,
+                                width: 100,
+                            },
+                        ]}
+                        checkboxSelection
+                    />
+                </Paper>
+            </Grid>
+
     </>
 );
 export default Articles;
