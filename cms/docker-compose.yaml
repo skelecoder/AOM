@@ -6,7 +6,7 @@ services:
       DATABASE_CLIENT: postgres
       DATABASE_NAME: amanor
       DATABASE_HOST: postgres
-      DATABASE_PORT: 5432
+      DATABASE_PORT: 5433
       DATABASE_USERNAME: amanor
       DATABASE_PASSWORD: amanor
     volumes:
