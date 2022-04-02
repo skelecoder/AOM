@@ -1,15 +1,16 @@
-import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
+import Badge from '@mui/material/Badge';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned';
 import CategoryIcon from '@mui/icons-material/Category';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ConstructionIcon from '@mui/icons-material/Construction';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,11 +23,24 @@ import Typography from '@mui/material/Typography';
 import NextLink from 'next/link';
 import Link from '@mui/material/Link';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import {IntervState}from '../../context/context'
+import axios from 'axios';
+import { useQuery } from 'react-query';
+import { io } from "socket.io-client";
 
 const drawerWidth = 240;
 
+
+
+const socket = io("http://localhost:1337")
+
 const Layout = ({ children }) => {
-    const location = useRouter();
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const {notificationState, notificationDispatch} = IntervState()
+
+    const router = useRouter();
+    
     const menuItems1 = [
         {
             text: 'Dashboard',
@@ -68,11 +82,23 @@ const Layout = ({ children }) => {
         },
     ];
 
-    const [mobileOpen, setMobileOpen] = useState(false);
-
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+
+    const handleNotifications = () => {
+        notificationDispatch({type:'RESET_NOTIFICATION_COUNT'})
+
+        router.push('/intervention')
+    }
+
+     useEffect(()=>{
+
+        socket.off('new_intervention').on('new_intervention', res => notificationDispatch({type:'NEW_NOTIFICATION', value:res.count}))
+        console.log('notificationState',notificationState.notifications)
+ })
+    
+   
 
     const drawer = (
         <div>
@@ -80,7 +106,7 @@ const Layout = ({ children }) => {
             <Divider />
             <List sx={{}}>
                 {menuItems1.map((item) => (
-                    <ListItem button key={item.text} selected={location.pathname.includes(item.path)}>
+                    <ListItem button key={item.text} selected={router.pathname.includes(item.path)}>
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <NextLink href={item.path} passHref>
                             <Link color="inherit" underline="none">
@@ -122,9 +148,12 @@ const Layout = ({ children }) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+                    <Typography sx={{flexGrow:1}} variant="h6" noWrap component="div">
                         Amanor Warehouse Manager
                     </Typography>
+                    <Badge sx={{mr:2,cursor:'pointer'}} badgeContent={notificationState.notifications} color="error" onClick={()=>handleNotifications()}>
+                        <NotificationsIcon />
+                    </Badge>
                 </Toolbar>
             </AppBar>
             <Box
@@ -162,7 +191,7 @@ const Layout = ({ children }) => {
                 component="main"
                 sx={{
                     flexGrow: 1,
-                    p:{xs:1, md:3},
+                    p: { xs: 1, md: 3 },
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     backgroundColor: (theme) => theme.palette.grey[100],
                     height: 'auto',

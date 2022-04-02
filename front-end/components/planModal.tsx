@@ -1,4 +1,4 @@
-import { Dialog,DialogTitle, List, ListItem, ListItemText, Paper, Typography, Box, Button } from '@mui/material';
+import { Dialog, DialogTitle, List, ListItem, ListItemText, Paper, Typography, Box, Button } from '@mui/material';
 import DatePickerInput from './datePicker';
 import { useState } from 'react';
 
@@ -12,10 +12,10 @@ const PlanModal = ({ handelClose, open, selection }) => {
     return (
         <Dialog onClose={handelClose} open={open}>
             <Paper sx={{ p: 4 }}>
-            <DialogTitle sx={{color:'primary.main', pl:0, mb:2}}>Planifier Interventions</DialogTitle>
+                <DialogTitle sx={{ color: 'primary.main', pl: 0, mb: 2 }}>Planifier Interventions</DialogTitle>
                 <form>
-                        <DatePickerInput id="" value={dateValue} changeEvent={handelChangeIput} isDisabled={false} />                
-                    <Typography sx={{fontWeight:'bold',mt:2}}>Liste de Références Sélectionnées</Typography>
+                    <DatePickerInput id="" value={dateValue} changeEvent={handelChangeIput} isDisabled={false} />
+                    <Typography sx={{ fontWeight: 'bold', mt: 2 }}>Liste de Références Sélectionnées</Typography>
                     <List>
                         {selection.map((item) => (
                             <ListItem button key={item.id}>
@@ -23,15 +23,21 @@ const PlanModal = ({ handelClose, open, selection }) => {
                             </ListItem>
                         ))}
                     </List>
-                    <Typography sx={{color:'primary.main', mb:2, fontWeight:'bold'}}>{selection.length} Référence(s) Séléctionée(s)</Typography>
+                    <Typography sx={{ color: 'primary.main', mb: 2, fontWeight: 'bold' }}>
+                        {selection.length} Référence(s) Séléctionée(s)
+                    </Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                    <Button sx={{borderColor:'text.disabled', color:'#222'}} variant="outlined" onClick={handelClose}>
-                        Annuler
-                    </Button>
-                    <Button variant="contained" color="primary" sx={{ ml: 2 }}>
-                        Enregistrer
-                    </Button>
-                </Box>
+                        <Button
+                            sx={{ borderColor: 'text.disabled', color: '#222' }}
+                            variant="outlined"
+                            onClick={handelClose}
+                        >
+                            Annuler
+                        </Button>
+                        <Button variant="contained" color="primary" sx={{ ml: 2 }}>
+                            Enregistrer
+                        </Button>
+                    </Box>
                 </form>
             </Paper>
         </Dialog>
