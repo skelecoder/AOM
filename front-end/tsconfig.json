@@ -29,5 +29,5 @@
     "**/*.ts",
     "**/*.tsx",
     "next.config.js"
-  ]
+, "context/context.js"  ]
 }

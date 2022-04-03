@@ -58,13 +58,13 @@ const IntervForm1 = ({ cancelForm1 }) => {
                 gap: 2,
                 alignItems: 'flex-start',
                 justifyContent: 'flex-start',
-                '& > :first-child > :nth-last-child(3)': { display: { xs: 'none', md: 'flex' } },
+                '& > :first-of-type > :nth-last-of-type(2)': { display: { xs: 'none', md: 'flex' } },
             }}
         >
             <form>
                 {inputFields.map((inputField) => (
-                    <>
-                        <Grid container spacing={1} key={inputField.id} sx={{ mb: { xs: 4, md: 2 } }}>
+                    <Box key={inputField.id}>
+                        <Grid container spacing={1} sx={{ mb: { xs: 4, md: 2 } }}>
                             <Grid item xs={12} md={5}>
                                 <TextField
                                     label="Address"
@@ -104,7 +104,7 @@ const IntervForm1 = ({ cancelForm1 }) => {
                                 height: '5px',
                             }}
                         />
-                    </>
+                    </Box>
                 ))}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button

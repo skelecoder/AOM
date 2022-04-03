@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "interventions",
+  "info": {
+    "singularName": "intervention",
+    "pluralName": "interventions",
+    "displayName": "intervention"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "reference": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "subType": {
+      "type": "string"
+    }
+  }
+}

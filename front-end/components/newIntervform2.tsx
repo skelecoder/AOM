@@ -11,10 +11,14 @@ import {
     Select,
     TextField,
 } from '@mui/material';
-import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { v4 as uuidv4 } from 'uuid';
 import DatePicker from './datePicker';
+import axios from 'axios';
+import { useState } from 'react';
+import { useMutation,useQueryClient } from 'react-query';
+import {IntervState} from '../context/context'
+
 
 const IntervForm2 = ({ cancelForm2 }) => {
     const initialFValues = [
@@ -67,6 +71,31 @@ const IntervForm2 = ({ cancelForm2 }) => {
         setInputFields(newInputFields);
     };
 
+    const addIntervention = (interv)=> {
+        return axios.post('http://localhost:1337/api/interventions',interv)
+    }
+
+    const {notificationState, notificationDispatch} = IntervState()
+
+    const queryClient = useQueryClient()
+    const {mutate}= useMutation(addIntervention)
+
+    const handleSubmit = ()=> {
+        const sentData = inputFields.map(field=>{
+            let {id, address,type, note,date} = field
+            let newField = {address,type, note,date}
+            return newField
+        }).filter(fld=> fld.note)
+       
+        sentData.forEach(element => {
+            mutate({data:element})
+        });
+        
+        setInputFields(initialFValues)
+    }
+
+    
+
     return (
         <Paper
             sx={{
@@ -75,13 +104,13 @@ const IntervForm2 = ({ cancelForm2 }) => {
                 gap: 2,
                 alignItems: 'flex-start',
                 justifyContent: 'flex-start',
-                '& > :first-child > :nth-last-child(3)': { display: { xs: 'none', md: 'flex' } },
+                '& > :first-of-type > :nth-last-of-type(2)': { display: { xs: 'none', md: 'flex' } },
             }}
         >
             <form>
-                {inputFields.map((inputField) => (
-                    <>
-                        <Grid container spacing={1} key={inputField.id} sx={{ mb: { xs: 4, md: 2 } }}>
+                {inputFields.map((inputField, index) => (
+                    <Box key={inputField.id}>
+                        <Grid container spacing={1} sx={{ mb: { xs: 4, md: 2 } }}>
                             <Grid item xs={12} md={5}>
                                 <TextField
                                     label="Address"
@@ -104,8 +133,8 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                         fullWidth
                                         disabled={inputField.isDisabled}
                                     >
-                                        <MenuItem value="branchement neuf">Type1</MenuItem>
-                                        <MenuItem value="reclamation">Type2</MenuItem>
+                                        <MenuItem value="Type1">Type1</MenuItem>
+                                        <MenuItem value="Type2">Type2</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -138,7 +167,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                 height: '5px',
                             }}
                         />
-                    </>
+                    </Box>
                 ))}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button
@@ -148,7 +177,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                     >
                         Annuler
                     </Button>
-                    <Button variant="contained" color="primary" sx={{ ml: 2 }}>
+                    <Button variant="contained" color="primary" sx={{ ml: 2 }} onClick={handleSubmit}>
                         Enregistrer
                     </Button>
                 </Box>

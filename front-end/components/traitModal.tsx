@@ -16,28 +16,36 @@ import {
     Divider,
     Paper,
 } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import DatePicker from './datePicker';
 
 const TraitModal = ({ handelClose, open, selection }) => {
-    
-    const rows = [...selection];
+    const [inputFields, setInputFields] = useState([
+        {
+            id: '',
+            reference: '',
+            address: '',
+            refection: '',
+            type: '',
+            date: new Date(),
+        },
+    ]);
 
-    const newSelection = rows.map((slc) => {
-        return { id: slc.id, reference: slc.col1, address: slc.col2, refection: 'non', type: '', date: new Date() };
-    });
-
-    //const [inputFields, setInputFields] = useState(newSelection);
+    useEffect(() => {
+        const modalSelection = selection.map((slc) => {
+            return { id: slc.id, reference: slc.col1, address: slc.col2, refection: 'non', type: '', date: new Date() };
+        });
+        setInputFields(modalSelection);
+    }, [selection]);
 
     const handleChangeInput = (id, event) => {
-        // const newInputFields = inputFields.map((field) => {
-        //     if (id === field.id) {
-        //         field[event.target.name] = event.target.value;
-        //     }
-        //     return field;
-        // });
-
-        // setInputFields(newInputFields);
+        const newInputFields = inputFields.map((field) => {
+            if (id === field.id) {
+                field[event.target.name] = event.target.value;
+            }
+            return field;
+        });
+        setInputFields(newInputFields);
     };
 
     return (
@@ -81,12 +89,12 @@ const TraitModal = ({ handelClose, open, selection }) => {
                             <Typography>Date</Typography>
                         </Grid>
                     </Grid>
-                    {newSelection.map((inputField) => (
-                        <>
+                    {inputFields.map((inputField) => (
+                        <Box key={inputField.id}>
                             <Grid
                                 container
                                 spacing={{ xs: 3, md: 1 }}
-                                key={inputField.id}
+                                
                                 sx={{
                                     mb: { xs: 5, md: 0 },
                                     '& .MuiInputLabel-outlined': {
@@ -128,7 +136,7 @@ const TraitModal = ({ handelClose, open, selection }) => {
                                         <RadioGroup
                                             aria-labelledby="demo-radio-buttons-group-label"
                                             defaultValue="non"
-                                            name="radio-buttons-group"
+                                            name="refection"
                                             value={inputField.refection}
                                             onChange={(e) => handleChangeInput(inputField.id, e)}
                                             row
@@ -172,7 +180,7 @@ const TraitModal = ({ handelClose, open, selection }) => {
                                     height: '5px',
                                 }}
                             />
-                        </>
+                        </Box>
                     ))}
                 </Paper>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 2, mb: 2 }}>
