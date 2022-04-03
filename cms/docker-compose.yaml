@@ -1,0 +1,28 @@
+version: '3'
+services:
+  strapi_amanor:
+    image: strapi/strapi
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_NAME: amanor
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5433
+      DATABASE_USERNAME: amanor
+      DATABASE_PASSWORD: amanor
+    volumes:
+      - ./app:/srv/app
+    ports:
+      - '1337:1337'
+    depends_on:
+      - postgres_amanor
+
+  postgres_amanor:
+    image: postgres
+    environment:
+      POSTGRES_DB: amanor
+      POSTGRES_USER: amanor
+      POSTGRES_PASSWORD: amanor
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - '5433:5432'

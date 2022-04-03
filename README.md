@@ -1,2 +1,2 @@
-# MDM
-Morocco Data Market
+# AOM
+Amanor Operations Manager
