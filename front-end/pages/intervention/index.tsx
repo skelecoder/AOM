@@ -14,68 +14,10 @@ import { dehydrate, QueryClient, useQuery } from 'react-query';
 import PlanModal from 'components/planModal';
 import TraitModal from 'components/traitModal';
 
-// const rows = [
-//     {
-//         id: uuidv4(),
-//         col1: '001',
-//         col2: '17 khossafat',
-//         col3: 'En traitement',
-//         col4: 'type1',
-//         col5: '11/02/2021',
-//         col6: 'Sous-type1',
-//     },
-//     {
-//         id: uuidv4(),
-//         col1: '002',
-//         col2: '22 Dradeb',
-//         col3: 'En traitement',
-//         col4: 'type2',
-//         col5: '10/03/2021',
-//         col6: 'Sous-type2',
-//     },
-//     {
-//         id: uuidv4(),
-//         col1: '003',
-//         col2: '57 Msala',
-//         col3: 'Traité',
-//         col4: 'type3',
-//         col5: '11/02/2021',
-//         col6: 'Sous-type3',
-//     },
-//     {
-//         id: uuidv4(),
-//         col1: '004',
-//         col2: '65 bnimakada',
-//         col3: 'En traitement',
-//         col4: 'type4',
-//         col5: '11/02/2021',
-//         col6: 'Sous-type4',
-//     },
-//     {
-//         id: uuidv4(),
-//         col1: '005',
-//         col2: '9 Avril',
-//         col3: 'Traité',
-//         col4: 'type1',
-//         col5: '11/02/2022',
-//         col6: 'Sous-type1',
-//     },
-//     {
-//         id: uuidv4(),
-//         col1: '006',
-//         col2: 'Iberia',
-//         col3: 'Traité',
-//         col4: 'type2',
-//         col5: '05/02/2021',
-//         col6: 'Sous-type2',
-//     },
-// ];
-
-
 
 const getInterventions = () => axios.get('http://localhost:1337/api/interventions').then(({ data }) => data);
 
-const Intervention =() => {
+const Intervention = () => {
     const [selection, setSelection] = useState([]);
     const [openPlanModal, setOpenPlanModal] = useState(false);
     const [openTraitModal, setOpenTraitModal] = useState(false);
@@ -83,6 +25,9 @@ const Intervention =() => {
     const [ids, setIds] = useState([]);
 
     const { data } = useQuery('interventions', getInterventions);
+
+    console.log(data);
+    console.log('asd');
 
     const rows = data.data.map((interv) => {
         let {
@@ -122,9 +67,8 @@ const Intervention =() => {
             const newIds = ids.filter((id) => id != e.target.value);
             setIds(newIds);
         }
-        console.log('ids',ids)
-        console.log(e.target.value)
-        
+        console.log('ids', ids);
+        console.log(e.target.value);
     };
 
     useEffect(() => {
@@ -202,10 +146,15 @@ const Intervention =() => {
                         fontWeight: 'bold',
                     },
                 }}
-            >           
+            >
                 <Box style={{ flexGrow: 1, height: '500px' }}>
-                    <DataGrid rows={rows} columns={columns} checkboxSelection onSelectionModelChange={handelSelectedRow} />
-                </Box>           
+                    <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        checkboxSelection
+                        onSelectionModelChange={handelSelectedRow}
+                    />
+                </Box>
             </Paper>
             <Box sx={{ display: { xs: 'block', md: 'none' }, paddingBottom: '200px' }}>
                 {ids.length != 0 && (
@@ -225,10 +174,11 @@ const Intervention =() => {
                                 p: 2,
                                 display: 'flex',
                                 alignItems: 'flex-start',
-                                backgroundColor: ({ palette }) => (ids.includes(row.id.toString()) ? palette.grey[300] : ''),
+                                backgroundColor: ({ palette }) =>
+                                    ids.includes(row.id.toString()) ? palette.grey[300] : '',
                             }}
                         >
-                            <Checkbox value={row.id} onChange={(e)=>handelChange(e)} />
+                            <Checkbox value={row.id} onChange={(e) => handelChange(e)} />
                             <Box sx={{ mt: 1 }}>
                                 <Typography>Reference: {row.col1}</Typography>
                                 <Typography>Addresse: {row.col2}</Typography>
