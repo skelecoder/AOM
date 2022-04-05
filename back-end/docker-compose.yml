@@ -1,0 +1,16 @@
+version: "3"
+services:
+  cms:
+    build: ./
+    container_name: amanor_cms
+    ports:
+      - "3176:3176"
+    volumes:
+      - ./src:/usr/share/app/src
+      - ./config:/usr/share/app/config
+      - ./database:/usr/share/app/database
+    networks:
+      - amanor-cms-network
+networks:
+  strapi-amanor-network:
+    driver: bridge

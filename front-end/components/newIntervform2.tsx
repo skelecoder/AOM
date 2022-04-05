@@ -19,6 +19,9 @@ import { useState } from 'react';
 import { useMutation,useQueryClient } from 'react-query';
 import {IntervState} from '../context/context'
 
+const strapiHost = process.env.STRAPI_HOST;
+const strapiPort = process.env.STRAPI_PORT;
+
 
 const IntervForm2 = ({ cancelForm2 }) => {
     const initialFValues = [
@@ -72,7 +75,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
     };
 
     const addIntervention = (interv)=> {
-        return axios.post('http://localhost:1337/api/interventions',interv)
+        return axios.post('http://' + strapiHost + ':' + strapiPort + '/api/interventions',interv)
     }
 
     const {notificationState, notificationDispatch} = IntervState()

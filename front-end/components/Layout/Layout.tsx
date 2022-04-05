@@ -24,23 +24,24 @@ import NextLink from 'next/link';
 import Link from '@mui/material/Link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import {IntervState}from '../../context/context'
+import { IntervState } from '../../context/context';
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
 
 const drawerWidth = 240;
 
+const strapiHost = process.env.STRAPI_HOST;
+const strapiPort = process.env.STRAPI_PORT;
 
-
-const socket = io("http://localhost:1337")
+const socket = io('http://' + strapiHost + ':' + strapiPort);
 
 const Layout = ({ children }) => {
     const [mobileOpen, setMobileOpen] = useState(false);
-    const {notificationState, notificationDispatch} = IntervState()
+    const { notificationState, notificationDispatch } = IntervState();
 
     const router = useRouter();
-    
+
     const menuItems1 = [
         {
             text: 'Dashboard',
@@ -87,18 +88,17 @@ const Layout = ({ children }) => {
     };
 
     const handleNotifications = () => {
-        notificationDispatch({type:'RESET_NOTIFICATION_COUNT'})
+        notificationDispatch({ type: 'RESET_NOTIFICATION_COUNT' });
 
-        router.push('/intervention')
-    }
+        router.push('/intervention');
+    };
 
-     useEffect(()=>{
-
-        socket.off('new_intervention').on('new_intervention', res => notificationDispatch({type:'NEW_NOTIFICATION', value:res.count}))
-        console.log('notificationState',notificationState.notifications)
- })
-    
-   
+    useEffect(() => {
+        socket
+            .off('new_intervention')
+            .on('new_intervention', (res) => notificationDispatch({ type: 'NEW_NOTIFICATION', value: res.count }));
+        console.log('notificationState', notificationState.notifications);
+    });
 
     const drawer = (
         <div>
@@ -148,10 +148,15 @@ const Layout = ({ children }) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography sx={{flexGrow:1}} variant="h6" noWrap component="div">
+                    <Typography sx={{ flexGrow: 1 }} variant="h6" noWrap component="div">
                         Amanor Warehouse Manager
                     </Typography>
-                    <Badge sx={{mr:2,cursor:'pointer'}} badgeContent={notificationState.notifications} color="error" onClick={()=>handleNotifications()}>
+                    <Badge
+                        sx={{ mr: 2, cursor: 'pointer' }}
+                        badgeContent={notificationState.notifications}
+                        color="error"
+                        onClick={() => handleNotifications()}
+                    >
                         <NotificationsIcon />
                     </Badge>
                 </Toolbar>

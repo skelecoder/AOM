@@ -7,15 +7,17 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import JoinRightIcon from '@mui/icons-material/JoinRight';
 import { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import NextLink from 'next/link';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import PlanModal from 'components/planModal';
 import TraitModal from 'components/traitModal';
 
+const strapiHost = process.env.STRAPI_HOST;
+const strapiPort = process.env.STRAPI_PORT;
 
-const getInterventions = () => axios.get('http://localhost:3176/api/interventions').then(({ data }) => data);
+const getInterventions = () =>
+    axios.get('http://' + strapiHost + ':' + strapiPort + '/api/interventions').then(({ data }) => data);
 
 const Intervention = () => {
     const [selection, setSelection] = useState([]);
