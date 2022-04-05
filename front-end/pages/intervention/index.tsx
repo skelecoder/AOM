@@ -15,7 +15,7 @@ import PlanModal from 'components/planModal';
 import TraitModal from 'components/traitModal';
 
 
-const getInterventions = () => axios.get('http://localhost:1337/api/interventions').then(({ data }) => data);
+const getInterventions = () => axios.get('http://localhost:3176/api/interventions').then(({ data }) => data);
 
 const Intervention = () => {
     const [selection, setSelection] = useState([]);
