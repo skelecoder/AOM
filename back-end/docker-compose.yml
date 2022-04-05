@@ -12,5 +12,5 @@ services:
     networks:
       - amanor-cms-network
 networks:
-  strapi-amanor-network:
+  amanor-cms-network:
     driver: bridge
