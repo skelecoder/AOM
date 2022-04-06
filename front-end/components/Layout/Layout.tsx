@@ -149,7 +149,7 @@ const Layout = ({ children }) => {
                         <MenuIcon />
                     </IconButton>
                     <Typography sx={{ flexGrow: 1 }} variant="h6" noWrap component="div">
-                        Amanor Warehouse Manager
+                        Amanor Operations Manager
                     </Typography>
                     <Badge
                         sx={{ mr: 2, cursor: 'pointer' }}
