@@ -19,7 +19,7 @@ module.exports = {
   bootstrap({ strapi }) {
     const io = require('socket.io')(strapi.server.httpServer, {
       cors: {
-        origin: "http://localhost:3000",
+        origin: "http://178.18.252.38:3030/",
         methods: ["GET", "POST"],
         allowedHeaders: ["my-custom-header"],
         credentials: true
