@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bordereaux_interventions",
+  "info": {
+    "singularName": "bordereaux-intervention",
+    "pluralName": "bordereaux-interventions",
+    "displayName": "Bordereaux_Intervention",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "intervention": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::intervention.intervention"
+    },
+    "bp_marche_29_21_ta": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bp-marche-29-21-ta.bp-marche-29-21-ta"
+    },
+    "Quantite": {
+      "type": "biginteger"
+    }
+  }
+}

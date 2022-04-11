@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bp_marche_29_21_tas",
+  "info": {
+    "singularName": "bp-marche-29-21-ta",
+    "pluralName": "bp-marche-29-21-tas",
+    "displayName": "BP_Marche_29_21_TA",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Prix": {
+      "type": "string"
+    },
+    "Designation_des_ouvrages": {
+      "type": "string"
+    },
+    "Unite": {
+      "type": "enumeration",
+      "enum": [
+        "m2",
+        "m3",
+        "ML",
+        "Tonne",
+        "U",
+        "kg",
+        "H",
+        "Forfait",
+        "dm"
+      ]
+    },
+    "Prix_unitaire": {
+      "type": "float"
+    }
+  }
+}
