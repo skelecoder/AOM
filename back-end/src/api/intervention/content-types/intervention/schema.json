@@ -4,30 +4,71 @@
   "info": {
     "singularName": "intervention",
     "pluralName": "interventions",
-    "displayName": "intervention"
+    "displayName": "Intervention",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "reference": {
+    "Reference": {
       "type": "string"
     },
-    "address": {
+    "Addresse": {
       "type": "string"
     },
-    "status": {
-      "type": "string"
-    },
-    "type": {
-      "type": "string"
-    },
-    "date": {
+    "Date_Note": {
       "type": "date"
     },
-    "subType": {
+    "Nature": {
+      "type": "enumeration",
+      "enum": [
+        "AF",
+        "AFF",
+        "C DO",
+        "C.GRILL",
+        "CGR",
+        "CRF",
+        "CRV",
+        "RBR",
+        "RGR",
+        "RRF",
+        "RRV",
+        "RTE",
+        "SBR",
+        "SCO",
+        "SSC",
+        "SSRBR"
+      ]
+    },
+    "Note": {
+      "type": "biginteger"
+    },
+    "Ordre": {
+      "type": "biginteger"
+    },
+    "Ligne_de_conduite": {
       "type": "string"
+    },
+    "Date_de_reception": {
+      "type": "date"
+    },
+    "Debut_des_travaux": {
+      "type": "date"
+    },
+    "Fin_des_travaux": {
+      "type": "date"
+    },
+    "Etat": {
+      "type": "enumeration",
+      "enum": [
+        "En instant",
+        "En cours",
+        "Traitée",
+        "Achevée",
+        "Programée"
+      ]
     }
   }
 }
