@@ -5,9 +5,8 @@ import MongodbService from 'lib/mongodb';
 
 const uri = process.env.MONGODB_URI;
 
-import Dashboard from 'components/dashboard/Dashboard';
+const Index = (props: any) => <h1>Index</h1>;
 
-const Index = (props: any) => <Dashboard  />;
 export const getServerSideProps: GetServerSideProps<any> = async () => {
     // const mongo = new MongodbService();
 

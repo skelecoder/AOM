@@ -11,7 +11,6 @@ const Named = ({ Component, pageProps }: AppProps) => {
     return (
         <Context>
             <QueryClientProvider client={queryClient}>             
-                <ReactQueryDevtools initialIsOpen={false} />
                 <Hydrate state={pageProps.dehydratedState}>
                     <Layout>
                         <Component {...pageProps} />

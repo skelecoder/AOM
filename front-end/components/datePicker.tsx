@@ -9,18 +9,18 @@ const convertToDefEventPara = (name, value) => ({
     },
 });
 
-const DatePickerInput = ({ value, id, changeEvent, isDisabled }) => {
+const DatePickerInput = ({ value, id, name, label, changeEvent, isDisabled }) => {
     return (
         <MuiPickersUtilsProvider locale={fr} utils={DateFnsUtils}>
             <DatePicker
                 disableToolbar
                 variant='dialog'
-                inputVariant="outlined"
-                
+                inputVariant="outlined"     
                 format="dd/MMM/yyyy"
-                name="date"
+                label={label}
+                name={name}
                 value={value}
-                onChange={(date) => changeEvent(id, convertToDefEventPara('date', date))}
+                onChange={(date) => changeEvent(id, convertToDefEventPara(name, date))}
                 fullWidth
                 disabled={isDisabled}
             />

@@ -25,16 +25,14 @@ import Link from '@mui/material/Link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { IntervState } from '../../context/context';
-import axios from 'axios';
-import { useQuery } from 'react-query';
-import { io } from 'socket.io-client';
+//import { io } from 'socket.io-client';
 
 const drawerWidth = 240;
 
 const strapiHost = process.env.STRAPI_HOST;
 const strapiPort = process.env.STRAPI_PORT;
 
-const socket = io('http://' + strapiHost + ':' + strapiPort);
+//const socket = io('http://' + strapiHost + ':' + strapiPort);
 
 const Layout = ({ children }) => {
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -94,10 +92,10 @@ const Layout = ({ children }) => {
     };
 
     useEffect(() => {
-        socket
-            .off('new_intervention')
-            .on('new_intervention', (res) => notificationDispatch({ type: 'NEW_NOTIFICATION', value: res.count }));
-        console.log('notificationState', notificationState.notifications);
+        // socket
+        //     .off('new_intervention')
+        //     .on('new_intervention', (res) => notificationDispatch({ type: 'NEW_NOTIFICATION', value: res.count }));
+        // console.log('notificationState', notificationState.notifications);
     });
 
     const drawer = (
