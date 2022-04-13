@@ -16,6 +16,20 @@ import TraitModal from 'components/traitModal';
 const strapiHost = process.env.NEXT_PUBLIC_STRAPI_HOST;
 const strapiPort = process.env.NEXT_PUBLIC_STRAPI_PORT;
 
+const titles = [
+    'Référence',
+    'Addresse',
+    'Date_Note',
+    'Nature',
+    'Note',
+    'Ordre',
+    'Ligne_de_conduite',
+    'Date_de_reception',
+    'Debut_des_travaux',
+    'Fin_des_travaux',
+    'Etat',
+];
+
 const getInterventions = () =>
     axios.get(`http://${strapiHost}:${strapiPort}/api/interventions`).then(({ data }) => data);
 
@@ -26,34 +40,28 @@ const Intervention = () => {
     const [isDisabled, setIsDisabled] = useState(true);
     const [ids, setIds] = useState([]);
 
-    const { data } = useQuery('interventions', getInterventions);
+    const {
+        data: { data },
+    } = useQuery('interventions', getInterventions);
 
-    console.log('data',data);
-    console.log('url',strapiHost,strapiPort);
-
-    const rows = data.data.map((interv) => {
-        let {
-            id,
-            attributes: { Reference, Addresse, Date_Note, Nature, Note, Ordre, Ligne_de_conduite, Date_de_reception, Debut_des_travaux, Fin_des_travaux, Etat },
-        } = interv;
+    const gridRows = data.map((interv) => {
+        let { id, attributes } = interv;
         let editedData = {
             id,
-            col1: Reference,
-            col2: Addresse,
-            col3: Date_Note,
-            col4: Nature,
-            col5: Note,
-            col6: Ordre,
-            col7: Ligne_de_conduite,
-            col8: Date_de_reception,
-            col9: Debut_des_travaux,
-            col10: Fin_des_travaux,
-            col11: Etat,
+            col1: attributes.Reference,
+            col2: attributes.Addresse,
+            col3: attributes.Date_Note,
+            col4: attributes.Nature,
+            col5: attributes.Note,
+            col6: attributes.Ordre,
+            col7: attributes.Ligne_de_conduite,
+            col8: attributes.Date_de_reception,
+            col9: attributes.Debut_des_travaux,
+            col10: attributes.Fin_des_travaux,
+            col11: attributes.Etat,
         };
         return editedData;
     });
-
-    console.log('rows',rows);
 
     const handelOpenPlanModal = () => {
         setOpenPlanModal(true);
@@ -76,19 +84,17 @@ const Intervention = () => {
             const newIds = ids.filter((id) => id != e.target.value);
             setIds(newIds);
         }
-        console.log('ids', ids);
-        console.log(e.target.value);
     };
 
     useEffect(() => {
-        const selctedLists = rows.filter((row) => ids.includes(row.id.toString()));
+        const selctedLists = gridRows.filter((row) => ids.includes(row.id.toString()));
         setSelection(selctedLists);
         selctedLists.length == 0 ? setIsDisabled(true) : setIsDisabled(false);
     }, [ids]);
 
     const handelSelectedRow = (ids) => {
         const selectedIDs = new Set(ids);
-        const selectedRows = rows.filter((row) => selectedIDs.has(row.id));
+        const selectedRows = gridRows.filter((row) => selectedIDs.has(row.id));
         const refAndAddress = selectedRows.map((employee) => {
             let { id, col1, col2, col3, col4, col5, col6 } = employee;
             let subset = { id, col1, col2 };
@@ -99,8 +105,8 @@ const Intervention = () => {
     };
 
     const columns = [
-        { field: 'col1', headerName: 'Reference', width: 200 },
-        { field: 'col2', headerName: 'Addresse', width: 150 },
+        { field: 'col1', headerName: 'Référence', width: 200 },
+        { field: 'col2', headerName: 'Addresse', width: 300 },
         { field: 'col3', headerName: 'Date_Note', width: 100 },
         { field: 'col4', headerName: 'Nature', width: 100 },
         { field: 'col5', headerName: 'Note', width: 80 },
@@ -161,9 +167,9 @@ const Intervention = () => {
                     },
                 }}
             >
-                <Box style={{ flexGrow: 1, height: '500px' }}>
+                <Box sx={{ flexGrow: 1, height: '600px' }}>
                     <DataGrid
-                        rows={rows}
+                        rows={gridRows}
                         columns={columns}
                         checkboxSelection
                         onSelectionModelChange={handelSelectedRow}
@@ -179,7 +185,7 @@ const Intervention = () => {
                     </Paper>
                 )}
 
-                {rows.map((row) => {
+                {gridRows.map((row) => {
                     return (
                         <Paper
                             key={row.id}
@@ -194,17 +200,72 @@ const Intervention = () => {
                         >
                             <Checkbox value={row.id} onChange={(e) => handelChange(e)} />
                             <Box sx={{ mt: 1 }}>
-                                <Typography>Reference: {row.col1}</Typography>
-                                <Typography>Addresse: {row.col2}</Typography>
-                                <Typography>Date_Note: {row.col3}</Typography>
-                                <Typography>Nature: {row.col4}</Typography>
-                                <Typography>Note: {row.col5}</Typography>
-                                <Typography>Ordre: {row.col6}</Typography>
-                                <Typography>Ligne de conduite: {row.col7}</Typography>
-                                <Typography>Date de reception: {row.col8}</Typography>
-                                <Typography>Debut des travaux: {row.col9}</Typography>
-                                <Typography>Fin des travaux: {row.col10}</Typography>
-                                <Typography>Etat: {row.col11}</Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Reference:
+                                    </Typography>{' '}
+                                    {row.col1}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Addresse:
+                                    </Typography>{' '}
+                                    {row.col2}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Date_Note:
+                                    </Typography>{' '}
+                                    {row.col3}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Nature:
+                                    </Typography>{' '}
+                                    {row.col4}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Note:
+                                    </Typography>{' '}
+                                    {row.col5}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Ordre:
+                                    </Typography>{' '}
+                                    {row.col6}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Ligne de conduite:
+                                    </Typography>{' '}
+                                    {row.col7}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Date de reception
+                                    </Typography>
+                                    : {row.col8}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Debut des travaux:
+                                    </Typography>{' '}
+                                    {row.col9}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Fin des travaux:
+                                    </Typography>{' '}
+                                    {row.col10}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Etat:
+                                    </Typography>{' '}
+                                    {row.col11}
+                                </Typography>
                             </Box>
                         </Paper>
                     );
