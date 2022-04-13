@@ -13,11 +13,11 @@ import { dehydrate, QueryClient, useQuery } from 'react-query';
 import PlanModal from 'components/planModal';
 import TraitModal from 'components/traitModal';
 
-const strapiHost = process.env.STRAPI_HOST;
-const strapiPort = process.env.STRAPI_PORT;
+const strapiHost = process.env.NEXT_PUBLIC_STRAPI_HOST;
+const strapiPort = process.env.NEXT_PUBLIC_STRAPI_PORT;
 
 const getInterventions = () =>
-    axios.get('http://' + strapiHost + ':' + strapiPort + '/api/interventions').then(({ data }) => data);
+    axios.get(`http://${strapiHost}:${strapiPort}/api/interventions`).then(({ data }) => data);
 
 const Intervention = () => {
     const [selection, setSelection] = useState([]);
@@ -28,25 +28,32 @@ const Intervention = () => {
 
     const { data } = useQuery('interventions', getInterventions);
 
-    console.log(data);
-    console.log('asd');
+    console.log('data',data);
+    console.log('url',strapiHost,strapiPort);
 
     const rows = data.data.map((interv) => {
         let {
             id,
-            attributes: { reference, address, status, type, date, subType },
+            attributes: { Reference, Addresse, Date_Note, Nature, Note, Ordre, Ligne_de_conduite, Date_de_reception, Debut_des_travaux, Fin_des_travaux, Etat },
         } = interv;
         let editedData = {
             id,
-            col1: reference,
-            col2: address,
-            col3: status,
-            col4: type,
-            col5: date,
-            col6: subType,
+            col1: Reference,
+            col2: Addresse,
+            col3: Date_Note,
+            col4: Nature,
+            col5: Note,
+            col6: Ordre,
+            col7: Ligne_de_conduite,
+            col8: Date_de_reception,
+            col9: Debut_des_travaux,
+            col10: Fin_des_travaux,
+            col11: Etat,
         };
         return editedData;
     });
+
+    console.log('rows',rows);
 
     const handelOpenPlanModal = () => {
         setOpenPlanModal(true);
@@ -92,12 +99,17 @@ const Intervention = () => {
     };
 
     const columns = [
-        { field: 'col1', headerName: 'Référence', width: 200 },
+        { field: 'col1', headerName: 'Reference', width: 200 },
         { field: 'col2', headerName: 'Addresse', width: 150 },
-        { field: 'col3', headerName: 'Status', width: 100 },
-        { field: 'col4', headerName: 'Type', width: 100 },
-        { field: 'col5', headerName: 'Date Status', width: 150 },
-        { field: 'col6', headerName: 'Sous-type', width: 100 },
+        { field: 'col3', headerName: 'Date_Note', width: 100 },
+        { field: 'col4', headerName: 'Nature', width: 100 },
+        { field: 'col5', headerName: 'Note', width: 80 },
+        { field: 'col6', headerName: 'Ordre', width: 80 },
+        { field: 'col7', headerName: 'Ligne de conduite', width: 150 },
+        { field: 'col8', headerName: 'Date de reception', width: 150 },
+        { field: 'col9', headerName: 'Debut des travaux', width: 150 },
+        { field: 'col10', headerName: 'Fin des travaux', width: 150 },
+        { field: 'col11', headerName: 'Etat', width: 100 },
     ];
 
     return (
@@ -184,10 +196,15 @@ const Intervention = () => {
                             <Box sx={{ mt: 1 }}>
                                 <Typography>Reference: {row.col1}</Typography>
                                 <Typography>Addresse: {row.col2}</Typography>
-                                <Typography>Status: {row.col3}</Typography>
-                                <Typography>Date Status: {row.col4}</Typography>
-                                <Typography>Type: {row.col5}</Typography>
-                                <Typography>Sous-type: {row.col6}</Typography>
+                                <Typography>Date_Note: {row.col3}</Typography>
+                                <Typography>Nature: {row.col4}</Typography>
+                                <Typography>Note: {row.col5}</Typography>
+                                <Typography>Ordre: {row.col6}</Typography>
+                                <Typography>Ligne de conduite: {row.col7}</Typography>
+                                <Typography>Date de reception: {row.col8}</Typography>
+                                <Typography>Debut des travaux: {row.col9}</Typography>
+                                <Typography>Fin des travaux: {row.col10}</Typography>
+                                <Typography>Etat: {row.col11}</Typography>
                             </Box>
                         </Paper>
                     );
