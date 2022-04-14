@@ -21,6 +21,7 @@ import { IntervState } from '../context/context';
 
 const strapiHost = process.env.NEXT_PUBLIC_STRAPI_HOST;
 const strapiPort = process.env.NEXT_PUBLIC_STRAPI_PORT;
+
 const natures = [
     'AF',
     'AFF',
@@ -98,8 +99,8 @@ const IntervForm2 = ({ cancelForm2 }) => {
         });
 
         setInputFields(newFields);
-        setBtnPos((prevState) => prevState + 76);
-        setBtnPosMob((prevState) => prevState + 289);
+        setBtnPos((prevState) => prevState + 144);
+        setBtnPosMob((prevState) => prevState + 740.5);
     };
 
     const handleChangeInput = (id, event) => {
@@ -157,9 +158,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
             .filter((fld) => fld.Reference);
 
         sentData.forEach((element) => {
-            mutate({ data: element });
-            console.log(`http://${strapiHost}:${strapiPort}/api/interventions`);
-            
+            mutate({ data: element });          
         });
 
         setInputFields(initialFValues);
@@ -171,6 +170,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                 p: 3,
                 display: 'flex',
                 gap: 2,
+                
                 alignItems: 'flex-start',
                 justifyContent: 'flex-start',
                 '& > :first-of-type > :nth-last-of-type(2)': { display: { xs: 'none', md: 'flex' } },
@@ -180,7 +180,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                 {inputFields.map((inputField) => (
                     <Box key={inputField.id}>
                         <Grid container spacing={1} sx={{ mb: { xs: 4, md: 2 } }}>
-                            <Grid item xs={12} md={5}>
+                            <Grid item xs={12} md={3}>
                                 <TextField
                                     label="Reference"
                                     name="Reference"
@@ -191,7 +191,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     disabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={5}>
+                            <Grid item xs={12} md={3}>
                                 <TextField
                                     label="Addresse"
                                     name="Addresse"
@@ -202,7 +202,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     disabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={2}>
                                 <DatePicker
                                     id={inputField.id}
                                     value={inputField.Date_Note}
@@ -231,7 +231,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} md={2}>
+                            <Grid item xs={12} md={1}>
                                 <TextField
                                     label="Note"
                                     name="Note"
@@ -243,7 +243,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     disabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={2}>
+                            <Grid item xs={12} md={1}>
                                 <TextField
                                     label="Ordre"
                                     name="Ordre"
@@ -255,7 +255,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     disabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={5}>
+                            <Grid item xs={12} md={3}>
                                 <TextField
                                     label="Ligne de conduite"
                                     name="Ligne_de_conduite"
@@ -266,7 +266,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     disabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={2}>
                                 <DatePicker
                                     id={inputField.id}
                                     value={inputField.Date_de_reception}
@@ -276,7 +276,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     isDisabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={2}>
                                 <DatePicker
                                     id={inputField.id}
                                     value={inputField.Debut_des_travaux}
@@ -286,7 +286,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     isDisabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={2}>
                                 <DatePicker
                                     id={inputField.id}
                                     value={inputField.Fin_des_travaux}
@@ -296,7 +296,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     isDisabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={2}>
+                            <Grid item xs={12} md={3}>
                                 <FormControl sx={{ width: 2 / 2 }}>
                                     <InputLabel>Etat</InputLabel>
                                     <Select
