@@ -89,6 +89,8 @@ const IntervForm1 = ({ cancelForm1 }) => {
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <DatePicker
+                                    name='MyDatePicker'
+                                    label='My label'
                                     id={inputField.id}
                                     value={inputField.date}
                                     changeEvent={handleChangeInput}

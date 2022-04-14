@@ -14,7 +14,7 @@ const PlanModal = ({ handelClose, open, selection }) => {
             <Paper sx={{ p: 4 }}>
                 <DialogTitle sx={{ color: 'primary.main', pl: 0, mb: 2 }}>Planifier Interventions</DialogTitle>
                 <form>
-                    <DatePickerInput id="" value={dateValue} changeEvent={handelChangeIput} isDisabled={false} />
+                    <DatePickerInput name="MyInput" label="" id="" value={dateValue} changeEvent={handelChangeIput} isDisabled={false} />
                     <Typography sx={{ fontWeight: 'bold', mt: 2 }}>Liste de Références Sélectionnées</Typography>
                     <List>
                         {selection.map((item) => (

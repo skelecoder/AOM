@@ -164,6 +164,8 @@ const TraitModal = ({ handelClose, open, selection }) => {
                                     <FormControl fullWidth>
                                         <InputLabel>Date</InputLabel>
                                         <DatePicker
+                                            name=""
+                                            label=""
                                             id={inputField.id}
                                             value={inputField.date}
                                             changeEvent={handleChangeInput}
