@@ -13,6 +13,8 @@ import ConstructionIcon from '@mui/icons-material/Construction';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
+import SendTimeExtensionIcon from '@mui/icons-material/SendTimeExtension';
+import JoinRightIcon from '@mui/icons-material/JoinRight';
 import MenuIcon from '@mui/icons-material/Menu';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -51,33 +53,23 @@ const Layout = ({ children }) => {
             icon: <AssignmentReturnedIcon />,
             path: '/intervention',
         },
+        {
+            text: 'Dispatching',
+            icon: <SendTimeExtensionIcon />,
+            path: '/dispatching',
+        },
+        {
+            text: 'Attachements',
+            icon: <JoinRightIcon />,
+            path: '/attachements',
+        },
     ];
 
     const menuItems2 = [
         {
-            text: 'Articles',
-            icon: <CategoryIcon />,
-            path: '/',
-        },
-        {
-            text: 'Fournisseurs',
-            icon: <SupervisedUserCircleIcon />,
-            path: '/',
-        },
-        {
-            text: 'Chantiers',
-            icon: <ConstructionIcon />,
-            path: '/',
-        },
-        {
-            text: 'Équipes',
-            icon: <GroupsIcon />,
-            path: '/',
-        },
-        {
             text: 'Paramètres',
             icon: <SettingsIcon />,
-            path: '/',
+            path: '/parametres',
         },
     ];
 
@@ -92,8 +84,8 @@ const Layout = ({ children }) => {
     };
 
     useEffect(() => {
-         socket
-             .off('new_intervention')
+        socket
+            .off('new_intervention')
             .on('new_intervention', (res) => notificationDispatch({ type: 'NEW_NOTIFICATION', value: res.count }));
     });
 
@@ -103,10 +95,15 @@ const Layout = ({ children }) => {
             <Divider />
             <List sx={{}}>
                 {menuItems1.map((item) => (
-                    <ListItem button key={item.text} selected={router.pathname.includes(item.path)}>
+                    <ListItem
+                        button
+                        key={item.text}
+                        selected={router.pathname.includes(item.path)}
+                        sx={{ '& .css-10hburv-MuiTypography-root': { fontWeight: '600' } }}
+                    >
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <NextLink href={item.path} passHref>
-                            <Link color="inherit" underline="none">
+                            <Link color="primary.main" underline="none">
                                 <ListItemText primary={item.text} />
                             </Link>
                         </NextLink>
@@ -116,7 +113,7 @@ const Layout = ({ children }) => {
             <Divider />
             <List>
                 {menuItems2.map((item) => (
-                    <ListItem button key={item.text}>
+                    <ListItem button key={item.text}  sx={{'& .css-10hburv-MuiTypography-root':{fontWeight:'600'}}}>
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.text} />
                     </ListItem>
@@ -196,7 +193,7 @@ const Layout = ({ children }) => {
                     p: { xs: 1, md: 3 },
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     backgroundColor: (theme) => theme.palette.grey[100],
-                    height: 'auto',
+                    height: { xs: 'auto', md: '100vh' },
                 }}
             >
                 <Toolbar />
