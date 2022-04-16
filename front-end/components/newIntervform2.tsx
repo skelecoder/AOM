@@ -18,6 +18,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { IntervState } from '../context/context';
+import { useRouter } from 'next/router';
 
 const strapiHost = process.env.NEXT_PUBLIC_STRAPI_HOST;
 const strapiPort = process.env.NEXT_PUBLIC_STRAPI_PORT;
@@ -57,32 +58,17 @@ const IntervForm2 = ({ cancelForm2 }) => {
             Debut_des_travaux: new Date(),
             Fin_des_travaux: new Date(),
             Etat: '',
-            isDisabled: false,
-        },
-        {
-            id: uuidv4(),
-            Reference: '',
-            Addresse: '',
-            Date_Note: new Date(),
-            Nature: '',
-            Note: '',
-            Ordre: '',
-            Ligne_de_conduite: '',
-            Date_de_reception: new Date(),
-            Debut_des_travaux: new Date(),
-            Fin_des_travaux: new Date(),
-            Etat: '',
-            isDisabled: true,
         },
     ];
+
+    const router = useRouter();
 
     const [inputFields, setInputFields] = useState(initialFValues);
     const [btnPos, setBtnPos] = useState(0);
     const [btnPosMob, setBtnPosMob] = useState(0);
 
     const handelAddClick = () => {
-        const newFields = [...inputFields];
-        newFields.splice(newFields.length - 1, 0, {
+        const fields = {
             id: uuidv4(),
             Reference: '',
             Addresse: '',
@@ -95,11 +81,12 @@ const IntervForm2 = ({ cancelForm2 }) => {
             Debut_des_travaux: new Date(),
             Fin_des_travaux: new Date(),
             Etat: '',
-            isDisabled: false,
-        });
+        };
+
+        const newFields = [...inputFields,fields];
 
         setInputFields(newFields);
-        setBtnPos((prevState) => prevState + 144);
+        setBtnPos((prevState) => prevState + 140);
         setBtnPosMob((prevState) => prevState + 740.5);
     };
 
@@ -121,44 +108,44 @@ const IntervForm2 = ({ cancelForm2 }) => {
     const { notificationState, notificationDispatch } = IntervState();
 
     const queryClient = useQueryClient();
-    const { mutate } = useMutation(addIntervention);
+    const { mutate } = useMutation(addIntervention, {
+        onSuccess: () => router.push('/intervention'),
+    });
 
     const handleSubmit = () => {
-        const sentData = inputFields
-            .map((field) => {
-                let {
-                    id,
-                    Reference,
-                    Addresse,
-                    Date_Note,
-                    Nature,
-                    Note,
-                    Ordre,
-                    Ligne_de_conduite,
-                    Date_de_reception,
-                    Debut_des_travaux,
-                    Fin_des_travaux,
-                    Etat,
-                } = field;
-                let newField = {
-                    Reference,
-                    Addresse,
-                    Date_Note,
-                    Nature,
-                    Note,
-                    Ordre,
-                    Ligne_de_conduite,
-                    Date_de_reception,
-                    Debut_des_travaux,
-                    Fin_des_travaux,
-                    Etat,
-                };
-                return newField;
-            })
-            .filter((fld) => fld.Reference);
+        const sentData = inputFields.map((field) => {
+            let {
+                id,
+                Reference,
+                Addresse,
+                Date_Note,
+                Nature,
+                Note,
+                Ordre,
+                Ligne_de_conduite,
+                Date_de_reception,
+                Debut_des_travaux,
+                Fin_des_travaux,
+                Etat,
+            } = field;
+            let newField = {
+                Reference,
+                Addresse,
+                Date_Note,
+                Nature,
+                Note,
+                Ordre,
+                Ligne_de_conduite,
+                Date_de_reception,
+                Debut_des_travaux,
+                Fin_des_travaux,
+                Etat,
+            };
+            return newField;
+        });
 
         sentData.forEach((element) => {
-            mutate({ data: element });          
+            mutate({ data: element });
         });
 
         setInputFields(initialFValues);
@@ -170,17 +157,15 @@ const IntervForm2 = ({ cancelForm2 }) => {
                 p: 3,
                 display: 'flex',
                 gap: 2,
-                
                 alignItems: 'flex-start',
                 justifyContent: 'flex-start',
-                '& > :first-of-type > :nth-last-of-type(2)': { display: { xs: 'none', md: 'flex' } },
             }}
         >
             <form>
                 {inputFields.map((inputField) => (
                     <Box key={inputField.id}>
                         <Grid container spacing={1} sx={{ mb: { xs: 4, md: 2 } }}>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={2}>
                                 <TextField
                                     label="Reference"
                                     name="Reference"
@@ -188,10 +173,9 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     variant="outlined"
                                     onChange={(e) => handleChangeInput(inputField.id, e)}
                                     fullWidth
-                                    disabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={4}>
                                 <TextField
                                     label="Addresse"
                                     name="Addresse"
@@ -199,7 +183,26 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     variant="outlined"
                                     onChange={(e) => handleChangeInput(inputField.id, e)}
                                     fullWidth
-                                    disabled={inputField.isDisabled}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={2}>
+                                <DatePicker
+                                    id={inputField.id}
+                                    value={inputField.Date_de_reception}
+                                    name="Date_de_reception"
+                                    label="Date de reception"
+                                    changeEvent={handleChangeInput}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={2}>
+                                <TextField
+                                    label="Note"
+                                    name="Note"
+                                    type="number"
+                                    value={inputField.Note}
+                                    variant="outlined"
+                                    onChange={(e) => handleChangeInput(inputField.id, e)}
+                                    fullWidth
                                 />
                             </Grid>
                             <Grid item xs={12} md={2}>
@@ -209,7 +212,6 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     name="Date_Note"
                                     label="Date note"
                                     changeEvent={handleChangeInput}
-                                    isDisabled={inputField.isDisabled}
                                 />
                             </Grid>
                             <Grid item xs={12} md={2}>
@@ -221,7 +223,6 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                         onChange={(e) => handleChangeInput(inputField.id, e)}
                                         label="Nature"
                                         fullWidth
-                                        disabled={inputField.isDisabled}
                                     >
                                         {natures.map((nature, i) => (
                                             <MenuItem key={i} value={nature}>
@@ -231,19 +232,25 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} md={1}>
-                                <TextField
-                                    label="Note"
-                                    name="Note"
-                                    type="number"
-                                    value={inputField.Note}
-                                    variant="outlined"
-                                    onChange={(e) => handleChangeInput(inputField.id, e)}
-                                    fullWidth
-                                    disabled={inputField.isDisabled}
-                                />
+                            <Grid item xs={12} md={2}>
+                                <FormControl sx={{ width: 2 / 2 }}>
+                                    <InputLabel>Etat</InputLabel>
+                                    <Select
+                                        value={inputField.Etat}
+                                        name="Etat"
+                                        onChange={(e) => handleChangeInput(inputField.id, e)}
+                                        label="Etat"
+                                        fullWidth
+                                    >
+                                        {etats.map((etat, i) => (
+                                            <MenuItem key={i} value={etat}>
+                                                {etat}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Grid>
-                            <Grid item xs={12} md={1}>
+                            <Grid item xs={12} md={2}>
                                 <TextField
                                     label="Ordre"
                                     name="Ordre"
@@ -252,10 +259,9 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     variant="outlined"
                                     onChange={(e) => handleChangeInput(inputField.id, e)}
                                     fullWidth
-                                    disabled={inputField.isDisabled}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={3}>
+                            <Grid item xs={12} md={2}>
                                 <TextField
                                     label="Ligne de conduite"
                                     name="Ligne_de_conduite"
@@ -263,17 +269,6 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     variant="outlined"
                                     onChange={(e) => handleChangeInput(inputField.id, e)}
                                     fullWidth
-                                    disabled={inputField.isDisabled}
-                                />
-                            </Grid>
-                            <Grid item xs={12} md={2}>
-                                <DatePicker
-                                    id={inputField.id}
-                                    value={inputField.Date_de_reception}
-                                    name="Date_de_reception"
-                                    label="Date de reception"
-                                    changeEvent={handleChangeInput}
-                                    isDisabled={inputField.isDisabled}
                                 />
                             </Grid>
                             <Grid item xs={12} md={2}>
@@ -283,7 +278,6 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     name="Debut_des_travaux"
                                     label="Debut des travaux"
                                     changeEvent={handleChangeInput}
-                                    isDisabled={inputField.isDisabled}
                                 />
                             </Grid>
                             <Grid item xs={12} md={2}>
@@ -293,27 +287,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     name="Fin_des_travaux"
                                     label="Fin des travaux"
                                     changeEvent={handleChangeInput}
-                                    isDisabled={inputField.isDisabled}
                                 />
-                            </Grid>
-                            <Grid item xs={12} md={3}>
-                                <FormControl sx={{ width: 2 / 2 }}>
-                                    <InputLabel>Etat</InputLabel>
-                                    <Select
-                                        value={inputField.Etat}
-                                        name="Etat"
-                                        onChange={(e) => handleChangeInput(inputField.id, e)}
-                                        label="Etat"
-                                        fullWidth
-                                        disabled={inputField.isDisabled}
-                                    >
-                                        {etats.map((etat, i) => (
-                                            <MenuItem key={i} value={etat}>
-                                                {etat}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
                             </Grid>
                         </Grid>
                         <Divider

@@ -9,7 +9,7 @@ const convertToDefEventPara = (name, value) => ({
     },
 });
 
-const DatePickerInput = ({ value, id, name, label, changeEvent, isDisabled }) => {
+const DatePickerInput = ({ value, id, name, label, changeEvent, isDisabled = false }) => {
     return (
         <MuiPickersUtilsProvider locale={fr} utils={DateFnsUtils}>
             <DatePicker
