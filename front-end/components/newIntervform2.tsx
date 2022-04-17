@@ -57,7 +57,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
             Date_de_reception: new Date(),
             Debut_des_travaux: new Date(),
             Fin_des_travaux: new Date(),
-            Etat: '',
+            Etat: 'En instant',
         },
     ];
 
@@ -80,7 +80,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
             Date_de_reception: new Date(),
             Debut_des_travaux: new Date(),
             Fin_des_travaux: new Date(),
-            Etat: '',
+            Etat: 'En instant',
         };
 
         const newFields = [...inputFields,fields];
