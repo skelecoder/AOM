@@ -20,7 +20,7 @@ const DatePickerInput = ({ value, id, name, label, changeEvent, isDisabled = fal
                 label={label}
                 name={name}
                 value={value}
-                onChange={(date) => changeEvent(id, convertToDefEventPara(name, date))}
+                onChange={(date) => changeEvent(convertToDefEventPara(name, date),id)}
                 fullWidth
                 disabled={isDisabled}
             />

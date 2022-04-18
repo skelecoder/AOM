@@ -9,6 +9,7 @@ import JoinRightIcon from '@mui/icons-material/JoinRight';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
 import PlanModal from 'components/planModal';
 import TraitModal from 'components/traitModal';
@@ -40,6 +41,8 @@ const Intervention = () => {
     const [isDisabled, setIsDisabled] = useState(true);
     const [ids, setIds] = useState([]);
 
+    const router = useRouter();
+
     const {
         data: { data },
     } = useQuery('interventions', getInterventions);
@@ -50,15 +53,15 @@ const Intervention = () => {
             id,
             col1: attributes.Reference,
             col2: attributes.Addresse,
-            col3: attributes.Date_Note,
-            col4: attributes.Nature,
-            col5: attributes.Note,
-            col6: attributes.Ordre,
-            col7: attributes.Ligne_de_conduite,
-            col8: attributes.Date_de_reception,
-            col9: attributes.Debut_des_travaux,
-            col10: attributes.Fin_des_travaux,
-            col11: attributes.Etat,
+            col3: attributes.Date_de_reception,
+            col4: attributes.Note,
+            col5: attributes.Date_Note,
+            col6: attributes.Nature,
+            col7: attributes.Etat,
+            col8: attributes.Ordre,
+            col9: attributes.Ligne_de_conduite,
+            col10: attributes.Debut_des_travaux,
+            col11: attributes.Fin_des_travaux,
         };
         return editedData;
     });
@@ -105,17 +108,17 @@ const Intervention = () => {
     };
 
     const columns = [
-        { field: 'col1', headerName: 'Référence', width: 200 },
+        { field: 'col1', headerName: 'Référence', width: 100 },
         { field: 'col2', headerName: 'Addresse', width: 300 },
-        { field: 'col3', headerName: 'Date_Note', width: 100 },
-        { field: 'col4', headerName: 'Nature', width: 100 },
-        { field: 'col5', headerName: 'Note', width: 80 },
-        { field: 'col6', headerName: 'Ordre', width: 80 },
-        { field: 'col7', headerName: 'Ligne de conduite', width: 150 },
-        { field: 'col8', headerName: 'Date de reception', width: 150 },
-        { field: 'col9', headerName: 'Debut des travaux', width: 150 },
-        { field: 'col10', headerName: 'Fin des travaux', width: 150 },
-        { field: 'col11', headerName: 'Etat', width: 100 },
+        { field: 'col3', headerName: 'Date de reception', width: 150 },
+        { field: 'col4', headerName: 'Note', width: 80 },
+        { field: 'col5', headerName: 'Date_Note', width: 100 },
+        { field: 'col6', headerName: 'Nature', width: 100 },
+        { field: 'col7', headerName: 'Etat', width: 100 },
+        { field: 'col8', headerName: 'Ordre', width: 80 },
+        { field: 'col9', headerName: 'Ligne de conduite', width: 150 },
+        { field: 'col10', headerName: 'Debut des travaux', width: 150 },
+        { field: 'col11', headerName: 'Fin des travaux', width: 150 },
     ];
 
     return (
@@ -173,6 +176,7 @@ const Intervention = () => {
                         columns={columns}
                         checkboxSelection
                         onSelectionModelChange={handelSelectedRow}
+                        onRowDoubleClick={(params) => router.push(`/intervention/${params.id}`)}
                     />
                 </Box>
             </Paper>
@@ -214,58 +218,58 @@ const Intervention = () => {
                                 </Typography>
                                 <Typography>
                                     <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                        Date_Note:
-                                    </Typography>{' '}
-                                    {row.col3}
-                                </Typography>
-                                <Typography>
-                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                        Nature:
-                                    </Typography>{' '}
-                                    {row.col4}
+                                        Date de reception
+                                    </Typography>
+                                    : {row.col3}
                                 </Typography>
                                 <Typography>
                                     <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
                                         Note:
                                     </Typography>{' '}
+                                    {row.col4}
+                                </Typography>
+                                <Typography>
+                                    <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+                                        Date_Note:
+                                    </Typography>{' '}
                                     {row.col5}
                                 </Typography>
                                 <Typography>
                                     <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                        Ordre:
+                                        Nature:
                                     </Typography>{' '}
                                     {row.col6}
                                 </Typography>
                                 <Typography>
                                     <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                        Ligne de conduite:
+                                        Etat:
                                     </Typography>{' '}
                                     {row.col7}
                                 </Typography>
                                 <Typography>
                                     <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                        Date de reception
-                                    </Typography>
-                                    : {row.col8}
+                                        Ordre:
+                                    </Typography>{' '}
+                                    {row.col8}
                                 </Typography>
                                 <Typography>
                                     <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                        Debut des travaux:
+                                        Ligne de conduite:
                                     </Typography>{' '}
                                     {row.col9}
                                 </Typography>
                                 <Typography>
                                     <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                        Fin des travaux:
+                                        Debut des travaux:
                                     </Typography>{' '}
                                     {row.col10}
                                 </Typography>
                                 <Typography>
                                     <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                        Etat:
+                                        Fin des travaux:
                                     </Typography>{' '}
                                     {row.col11}
-                                </Typography>
+                                </Typography>                                
                             </Box>
                         </Paper>
                     );
