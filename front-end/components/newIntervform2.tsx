@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { v4 as uuidv4 } from 'uuid';
-import DatePicker from './datePicker';
+import DatePicker from '../components/datePicker';
 import axios from 'axios';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
@@ -57,7 +57,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
             Date_de_reception: new Date(),
             Debut_des_travaux: new Date(),
             Fin_des_travaux: new Date(),
-            Etat: '',
+            Etat: 'En instant',
         },
     ];
 
@@ -80,17 +80,17 @@ const IntervForm2 = ({ cancelForm2 }) => {
             Date_de_reception: new Date(),
             Debut_des_travaux: new Date(),
             Fin_des_travaux: new Date(),
-            Etat: '',
+            Etat: 'En instant',
         };
 
-        const newFields = [...inputFields,fields];
+        const newFields = [...inputFields, fields];
 
         setInputFields(newFields);
         setBtnPos((prevState) => prevState + 140);
         setBtnPosMob((prevState) => prevState + 740.5);
     };
 
-    const handleChangeInput = (id, event) => {
+    const handleChangeInput = (event, id) => {
         const newInputFields = inputFields.map((field) => {
             if (id === field.id) {
                 field[event.target.name] = event.target.value;
@@ -171,7 +171,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     name="Reference"
                                     value={inputField.Reference}
                                     variant="outlined"
-                                    onChange={(e) => handleChangeInput(inputField.id, e)}
+                                    onChange={(e) => handleChangeInput(e, inputField.id)}
                                     fullWidth
                                 />
                             </Grid>
@@ -181,7 +181,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     name="Addresse"
                                     value={inputField.Addresse}
                                     variant="outlined"
-                                    onChange={(e) => handleChangeInput(inputField.id, e)}
+                                    onChange={(e) => handleChangeInput(e, inputField.id)}
                                     fullWidth
                                 />
                             </Grid>
@@ -201,7 +201,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     type="number"
                                     value={inputField.Note}
                                     variant="outlined"
-                                    onChange={(e) => handleChangeInput(inputField.id, e)}
+                                    onChange={(e) => handleChangeInput(e, inputField.id)}
                                     fullWidth
                                 />
                             </Grid>
@@ -220,7 +220,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     <Select
                                         value={inputField.Nature}
                                         name="Nature"
-                                        onChange={(e) => handleChangeInput(inputField.id, e)}
+                                        onChange={(e) => handleChangeInput(e, inputField.id)}
                                         label="Nature"
                                         fullWidth
                                     >
@@ -238,7 +238,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     <Select
                                         value={inputField.Etat}
                                         name="Etat"
-                                        onChange={(e) => handleChangeInput(inputField.id, e)}
+                                        onChange={(e) => handleChangeInput(e, inputField.id)}
                                         label="Etat"
                                         fullWidth
                                     >
@@ -257,7 +257,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     type="number"
                                     value={inputField.Ordre}
                                     variant="outlined"
-                                    onChange={(e) => handleChangeInput(inputField.id, e)}
+                                    onChange={(e) => handleChangeInput(e, inputField.id)}
                                     fullWidth
                                 />
                             </Grid>
@@ -267,7 +267,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
                                     name="Ligne_de_conduite"
                                     value={inputField.Ligne_de_conduite}
                                     variant="outlined"
-                                    onChange={(e) => handleChangeInput(inputField.id, e)}
+                                    onChange={(e) => handleChangeInput(e, inputField.id)}
                                     fullWidth
                                 />
                             </Grid>
