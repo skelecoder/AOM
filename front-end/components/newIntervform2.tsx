@@ -16,8 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import DatePicker from '../components/datePicker';
 import axios from 'axios';
 import { useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
-import { IntervState } from '../context/context';
+import { useMutation} from 'react-query';
 import { useRouter } from 'next/router';
 
 const strapiHost = process.env.NEXT_PUBLIC_STRAPI_HOST;
@@ -105,9 +104,6 @@ const IntervForm2 = ({ cancelForm2 }) => {
         return axios.post(`http://${strapiHost}:${strapiPort}/api/interventions`, interv);
     };
 
-    const { notificationState, notificationDispatch } = IntervState();
-
-    const queryClient = useQueryClient();
     const { mutate } = useMutation(addIntervention, {
         onSuccess: () => router.push('/intervention'),
     });

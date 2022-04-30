@@ -98,9 +98,9 @@ const Intervention = () => {
     const handelSelectedRow = (ids) => {
         const selectedIDs = new Set(ids);
         const selectedRows = gridRows.filter((row) => selectedIDs.has(row.id));
-        const refAndAddress = selectedRows.map((employee) => {
-            let { id, col1, col2, col3, col4, col5, col6 } = employee;
-            let subset = { id, col1, col2 };
+        const refAndAddress = selectedRows.map((interv) => {
+            let { id, col1, col2, col3, col4, col5, col6, col7 } = interv;
+            let subset = { id, col1, col2, col7 };
             return subset;
         });
         setSelection(refAndAddress);
@@ -108,11 +108,11 @@ const Intervention = () => {
     };
 
     const columns = [
-        { field: 'col1', headerName: 'Référence', width: 100 },
+        { field: 'col1', headerName: 'Référence', width: 150 },
         { field: 'col2', headerName: 'Addresse', width: 300 },
         { field: 'col3', headerName: 'Date de reception', width: 150 },
         { field: 'col4', headerName: 'Note', width: 80 },
-        { field: 'col5', headerName: 'Date_Note', width: 100 },
+        { field: 'col5', headerName: 'Date note', width: 100 },
         { field: 'col6', headerName: 'Nature', width: 100 },
         { field: 'col7', headerName: 'Etat', width: 100 },
         { field: 'col8', headerName: 'Ordre', width: 80 },
@@ -172,6 +172,11 @@ const Intervention = () => {
             >
                 <Box sx={{ flexGrow: 1, height: '600px' }}>
                     <DataGrid
+                        initialState={{
+                            sorting: {
+                              sortModel: [{ field: 'col1', sort: 'asc' }],
+                            },
+                          }}
                         rows={gridRows}
                         columns={columns}
                         checkboxSelection
@@ -230,7 +235,7 @@ const Intervention = () => {
                                 </Typography>
                                 <Typography>
                                     <Typography component="span" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
-                                        Date_Note:
+                                        Date note:
                                     </Typography>{' '}
                                     {row.col5}
                                 </Typography>

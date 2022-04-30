@@ -16,24 +16,41 @@ import {
     Divider,
     Paper,
 } from '@mui/material';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useMutation } from 'react-query';
+import { useRouter } from 'next/router';
 import DatePicker from './datePicker';
+import axios from 'axios';
+
+const strapiHost = process.env.NEXT_PUBLIC_STRAPI_HOST;
+const strapiPort = process.env.NEXT_PUBLIC_STRAPI_PORT;
+
+const etats = ['En instant', 'En cours', 'Traitée', 'Achevée', 'Programée'];
 
 const TraitModal = ({ handelClose, open, selection }) => {
     const [inputFields, setInputFields] = useState([
         {
             id: '',
-            reference: '',
-            address: '',
+            Reference: '',
+            Address: '',
             refection: '',
-            type: '',
+            Etat: '',
             date: new Date(),
         },
     ]);
 
+    const router = useRouter();
+
     useEffect(() => {
         const modalSelection = selection.map((slc) => {
-            return { id: slc.id, reference: slc.col1, address: slc.col2, refection: 'non', type: '', date: new Date() };
+            return {
+                id: slc.id,
+                Reference: slc.col1,
+                Address: slc.col2,
+                refection: 'non',
+                Etat: slc.col7,
+                date: new Date(),
+            };
         });
         setInputFields(modalSelection);
     }, [selection]);
@@ -46,6 +63,27 @@ const TraitModal = ({ handelClose, open, selection }) => {
             return field;
         });
         setInputFields(newInputFields);
+    };
+
+    const updateIntervention = ({ id, ...updatedData }: any) => {
+        return axios.put(`http://${strapiHost}:${strapiPort}/api/interventions/${id}`, updatedData);
+    };
+
+    const { mutate } = useMutation(updateIntervention, {
+        onSuccess: () => router.push('/intervention'),
+    });
+
+    const handleUpdate = () => {
+        const updatedData = inputFields.map((field) => {
+            const { id, Etat } = field;
+            return { id, Etat };
+        });
+
+        updatedData.forEach((element) => {
+            mutate({ id: element.id, data: element });
+        });
+
+        handelClose()
     };
 
     return (
@@ -94,7 +132,6 @@ const TraitModal = ({ handelClose, open, selection }) => {
                             <Grid
                                 container
                                 spacing={{ xs: 3, md: 1 }}
-                                
                                 sx={{
                                     mb: { xs: 5, md: 0 },
                                     '& .MuiInputLabel-outlined': {
@@ -109,7 +146,7 @@ const TraitModal = ({ handelClose, open, selection }) => {
                                         <InputLabel>Reférence</InputLabel>
                                         <TextField
                                             name="reference"
-                                            value={inputField.reference}
+                                            value={inputField.Reference}
                                             variant="outlined"
                                             onChange={(e) => handleChangeInput(inputField.id, e)}
                                             fullWidth
@@ -123,7 +160,7 @@ const TraitModal = ({ handelClose, open, selection }) => {
                                         <InputLabel>Address</InputLabel>
                                         <TextField
                                             name="address"
-                                            value={inputField.address}
+                                            value={inputField.Address}
                                             variant="outlined"
                                             onChange={(e) => handleChangeInput(inputField.id, e)}
                                             disabled
@@ -148,15 +185,18 @@ const TraitModal = ({ handelClose, open, selection }) => {
                                 </Grid>
                                 <Grid item xs={12} md={2}>
                                     <FormControl fullWidth>
-                                        <InputLabel>Type</InputLabel>
+                                        <InputLabel>Etat</InputLabel>
                                         <Select
-                                            value={inputField.type}
-                                            name="type"
+                                            value={inputField.Etat}
+                                            name="Etat"
                                             onChange={(e) => handleChangeInput(inputField.id, e)}
                                             fullWidth
                                         >
-                                            <MenuItem value="branchement neuf">Type1</MenuItem>
-                                            <MenuItem value="reclamation">Type2</MenuItem>
+                                            {etats.map((etat, i) => (
+                                                <MenuItem key={i} value={etat}>
+                                                    {etat}
+                                                </MenuItem>
+                                            ))}
                                         </Select>
                                     </FormControl>
                                 </Grid>
@@ -193,7 +233,7 @@ const TraitModal = ({ handelClose, open, selection }) => {
                     >
                         Annuler
                     </Button>
-                    <Button variant="contained" color="primary" sx={{ ml: 2 }}>
+                    <Button variant="contained" color="primary" sx={{ ml: 2 }} onClick={handleUpdate}>
                         Enregistrer
                     </Button>
                 </Box>
