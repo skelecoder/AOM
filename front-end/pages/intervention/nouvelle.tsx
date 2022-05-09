@@ -1,9 +1,10 @@
-import { Box, MenuItem, Paper, Select, Typography, FormControl, InputLabel } from '@mui/material';
+import { MenuItem, Paper, Select, Typography, FormControl, InputLabel } from '@mui/material';
 import { useState } from 'react';
+import { getSession } from 'next-auth/react';
 import IntervForm1 from '../../components/newIntervform1';
 import IntervForm2 from '../../components/newIntervform2';
 
-const NewIntervention = () => {
+const NewIntervention = ({token}) => {
     const [intervention, setIntervention] = useState('');
 
     const handleChange = (e) => {
@@ -28,7 +29,7 @@ const NewIntervention = () => {
             {intervention == 'branchement neuf' ? (
                 <IntervForm1 cancelForm1={setIntervention} />
             ) : intervention == 'reclamation' ? (
-                <IntervForm2 cancelForm2={setIntervention}/>
+                <IntervForm2 token={token} cancelForm2={setIntervention}/>
             ) : intervention == 'cancelForm' ? (
                 ''
             ) : (
@@ -39,3 +40,21 @@ const NewIntervention = () => {
 };
 
 export default NewIntervention;
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+    if (!session) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/auth/signin',
+            },
+        };
+    }
+
+    return {
+        props: {
+            token:session.jwt,
+        },
+    };
+}

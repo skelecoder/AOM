@@ -16,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 import DatePicker from '../components/datePicker';
 import axios from 'axios';
 import { useState } from 'react';
-import { useMutation} from 'react-query';
+import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 
 const strapiHost = process.env.NEXT_PUBLIC_STRAPI_HOST;
@@ -42,7 +42,7 @@ const natures = [
 ];
 const etats = ['En instant', 'En cours', 'Traitée', 'Achevée', 'Programée'];
 
-const IntervForm2 = ({ cancelForm2 }) => {
+const IntervForm2 = ({ token, cancelForm2 }) => {
     const initialFValues = [
         {
             id: uuidv4(),
@@ -54,8 +54,8 @@ const IntervForm2 = ({ cancelForm2 }) => {
             Ordre: '',
             Ligne_de_conduite: '',
             Date_de_reception: new Date(),
-            Debut_des_travaux: new Date(),
-            Fin_des_travaux: new Date(),
+            Debut_des_travaux: null,
+            Fin_des_travaux: null,
             Etat: 'En instant',
         },
     ];
@@ -100,8 +100,12 @@ const IntervForm2 = ({ cancelForm2 }) => {
         setInputFields(newInputFields);
     };
 
-    const addIntervention = (interv) => {
-        return axios.post(`http://${strapiHost}:${strapiPort}/api/interventions`, interv);
+    const addIntervention = ({interv,token}) => {
+        return axios.post(`http://${strapiHost}:${strapiPort}/api/interventions`, interv,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
     };
 
     const { mutate } = useMutation(addIntervention, {
@@ -141,7 +145,7 @@ const IntervForm2 = ({ cancelForm2 }) => {
         });
 
         sentData.forEach((element) => {
-            mutate({ data: element });
+            mutate({ interv:{data: element},token });
         });
 
         setInputFields(initialFValues);
