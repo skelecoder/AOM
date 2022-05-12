@@ -7,6 +7,7 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import JoinRightIcon from '@mui/icons-material/JoinRight';
 import { useEffect, useState } from 'react';
+import { getSession } from 'next-auth/react';
 import axios from 'axios';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
@@ -31,10 +32,16 @@ const titles = [
     'Etat',
 ];
 
-const getInterventions = () =>
-    axios.get(`http://${strapiHost}:${strapiPort}/api/interventions`).then(({ data }) => data);
+const getInterventions = (token:any) =>
+    axios
+        .get(`http://${strapiHost}:${strapiPort}/api/interventions`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(({ data }) => data);
 
-const Intervention = () => {
+const Intervention = ({token}) => {
     const [selection, setSelection] = useState([]);
     const [openPlanModal, setOpenPlanModal] = useState(false);
     const [openTraitModal, setOpenTraitModal] = useState(false);
@@ -45,9 +52,9 @@ const Intervention = () => {
 
     const {
         data: { data },
-    } = useQuery('interventions', getInterventions);
+    } = useQuery('interventions', ()=>getInterventions(token));
 
-    const gridRows = data.map((interv) => {
+    const gridRows = data?.map((interv) => {
         let { id, attributes } = interv;
         let editedData = {
             id,
@@ -124,7 +131,7 @@ const Intervention = () => {
     return (
         <>
             <PlanModal handelClose={handelClosePlanModal} open={openPlanModal} selection={selection} />
-            <TraitModal handelClose={handelCloseTraitModal} open={openTraitModal} selection={selection} />
+            <TraitModal handelClose={handelCloseTraitModal} open={openTraitModal} token={token} selection={selection} />
 
             <Typography variant="h4" sx={{ color: 'primary.main', mb: 2 }}>
                 Liste des interventions
@@ -162,7 +169,7 @@ const Intervention = () => {
             </Box>
             <Paper
                 sx={{
-                    height: 'calc(100vh - 300px)',
+                    height: 'auto',
                     display: { xs: 'none', md: 'flex' },
                     '& .css-1jbbcbn-MuiDataGrid-columnHeaderTitle': {
                         color: 'primary.main',
@@ -174,9 +181,9 @@ const Intervention = () => {
                     <DataGrid
                         initialState={{
                             sorting: {
-                              sortModel: [{ field: 'col1', sort: 'asc' }],
+                                sortModel: [{ field: 'col1', sort: 'asc' }],
                             },
-                          }}
+                        }}
                         rows={gridRows}
                         columns={columns}
                         checkboxSelection
@@ -274,7 +281,7 @@ const Intervention = () => {
                                         Fin des travaux:
                                     </Typography>{' '}
                                     {row.col11}
-                                </Typography>                                
+                                </Typography>
                             </Box>
                         </Paper>
                     );
@@ -330,14 +337,25 @@ const Intervention = () => {
     );
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+    const session = await getSession(context);
+    if (!session) {
+        return {
+            redirect: {
+                permanent: false,
+                destination: '/auth/signin',
+            },
+        };
+    }
+
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery('interventions', getInterventions);
+    await queryClient.prefetchQuery('interventions', ()=> getInterventions(session.jwt));
 
     return {
         props: {
             dehydratedState: dehydrate(queryClient),
+            token:session.jwt,
         },
     };
 }

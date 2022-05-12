@@ -7,11 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned';
-import CategoryIcon from '@mui/icons-material/Category';
-import GroupsIcon from '@mui/icons-material/Groups';
-import ConstructionIcon from '@mui/icons-material/Construction';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SendTimeExtensionIcon from '@mui/icons-material/SendTimeExtension';
 import JoinRightIcon from '@mui/icons-material/JoinRight';
@@ -22,12 +18,15 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import NextLink from 'next/link';
 import Link from '@mui/material/Link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { signOut, useSession } from 'next-auth/react';
 import { IntervState } from '../../context/context';
 import { io } from 'socket.io-client';
+import AccountMenu from '../menu'
 
 const drawerWidth = 240;
 
@@ -37,6 +36,7 @@ const strapiPort = process.env.NEXT_PUBLIC_STRAPI_PORT;
 const socket = io(`http://${strapiHost}:${strapiPort}`);
 
 const Layout = ({ children }) => {
+    const { data: session }:any = useSession();
     const [mobileOpen, setMobileOpen] = useState(false);
     const { notificationState, notificationDispatch } = IntervState();
 
@@ -113,7 +113,11 @@ const Layout = ({ children }) => {
             <Divider />
             <List>
                 {menuItems2.map((item) => (
-                    <ListItem button key={item.text}  sx={{'& .css-10hburv-MuiTypography-root':{fontWeight:'600'}}}>
+                    <ListItem
+                        button
+                        key={item.text}
+                        sx={{ '& .css-10hburv-MuiTypography-root': { fontWeight: '600' } }}
+                    >
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.text} />
                     </ListItem>
@@ -144,7 +148,7 @@ const Layout = ({ children }) => {
                     </IconButton>
                     <Typography sx={{ flexGrow: 1 }} variant="h6" noWrap component="div">
                         Amanor Operations Manager
-                    </Typography>
+                    </Typography>                 
                     <Badge
                         sx={{ mr: 2, cursor: 'pointer' }}
                         badgeContent={notificationState.notifications}
@@ -153,6 +157,8 @@ const Layout = ({ children }) => {
                     >
                         <NotificationsIcon />
                     </Badge>
+                    {session && <AccountMenu username={session?.user.username}/>}
+                    
                 </Toolbar>
             </AppBar>
             <Box
@@ -192,8 +198,7 @@ const Layout = ({ children }) => {
                     flexGrow: 1,
                     p: { xs: 1, md: 3 },
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
-                    backgroundColor: (theme) => theme.palette.grey[100],
-                    height: { xs: 'auto', md: '100vh' },
+                    height: 'auto',
                 }}
             >
                 <Toolbar />

@@ -27,7 +27,7 @@ const strapiPort = process.env.NEXT_PUBLIC_STRAPI_PORT;
 
 const etats = ['En instant', 'En cours', 'Traitée', 'Achevée', 'Programée'];
 
-const TraitModal = ({ handelClose, open, selection }) => {
+const TraitModal = ({ handelClose, open, selection,token }) => {
     const [inputFields, setInputFields] = useState([
         {
             id: '',
@@ -65,8 +65,12 @@ const TraitModal = ({ handelClose, open, selection }) => {
         setInputFields(newInputFields);
     };
 
-    const updateIntervention = ({ id, ...updatedData }: any) => {
-        return axios.put(`http://${strapiHost}:${strapiPort}/api/interventions/${id}`, updatedData);
+    const updateIntervention = ({ id, token, ...updatedData }: any) => {
+        return axios.put(`http://${strapiHost}:${strapiPort}/api/interventions/${id}`, updatedData,{
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
     };
 
     const { mutate } = useMutation(updateIntervention, {
@@ -80,7 +84,7 @@ const TraitModal = ({ handelClose, open, selection }) => {
         });
 
         updatedData.forEach((element) => {
-            mutate({ id: element.id, data: element });
+            mutate({ id: element.id,token, data: element });
         });
 
         handelClose()
@@ -101,6 +105,9 @@ const TraitModal = ({ handelClose, open, selection }) => {
                             fontWeight: 'bold',
                         },
                         '& .MuiInputBase-input': { padding: '6px 5px 7px' },
+                        '& .MuiInputBase-input.Mui-disabled': {
+                            WebkitTextFillColor: '#6b6b6b',
+                        },
                     }}
                 >
                     <Grid
@@ -209,7 +216,7 @@ const TraitModal = ({ handelClose, open, selection }) => {
                                             id={inputField.id}
                                             value={inputField.date}
                                             changeEvent={handleChangeInput}
-                                            isDisabled={false}
+                                            isDisabled={true}
                                         />
                                     </FormControl>
                                 </Grid>

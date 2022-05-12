@@ -1,28 +1,24 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
-import { interventionReducer } from './reducers';
-import { v4 as uuidv4 } from 'uuid';
-import { useQuery } from 'react-query';
+import { createContext, useContext, useReducer } from 'react';
+import { notificationReducer,interventionReducer } from './reducers';
 
-const strapiHost = process.env.STRAPI_HOST;
-const strapiPort = process.env.STRAPI_PORT;
-
-const getInterventions = () =>
-    axios.get('http://' + strapiHost + ':' + strapiPort + '/api/interventions').then(({ data }) => data);
-
-const notification = createContext();
+const intervContext = createContext();
 
 const Context = ({ children }) => {
-    const [notificationState, notificationDispatch] = useReducer(interventionReducer, {
+    const [notificationState, notificationDispatch] = useReducer(notificationReducer, {
         notifications: 0,
     });
 
     return (
-        <notification.Provider value={{ notificationState, notificationDispatch }}>{children}</notification.Provider>
+        <intervContext.Provider
+            value={{ notificationState, notificationDispatch }}
+        >
+            {children}
+        </intervContext.Provider>
     );
 };
 
 export default Context;
 
 export const IntervState = () => {
-    return useContext(notification);
+    return useContext(intervContext);
 };
