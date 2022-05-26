@@ -34,14 +34,15 @@ const titles = [
 
 const getInterventions = (token:any) =>
     axios
-        .get(`http://${strapiHost}:${strapiPort}/api/interventions`, {
+        .get(`http://${strapiHost}:${strapiPort}/api/interventions?pagination[page]=1&pagination[pageSize]=100`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         })
-        .then(({ data }) => data);
+        .then(({ data }) => data);    
 
 const Intervention = ({token}) => {
+   
     const [selection, setSelection] = useState([]);
     const [openPlanModal, setOpenPlanModal] = useState(false);
     const [openTraitModal, setOpenTraitModal] = useState(false);

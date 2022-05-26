@@ -33,7 +33,7 @@ const SignUp: NextPage = ({ csrfToken }: any) => {
         else setPasswordMsg('');
         const regExPassword = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/;
         if (!regExPassword.test(password)) return setPasswordMsg("Mot de pass doit contenir aux moins 8 caractères une majuscule une minuscule un chiffre et un caractère spécial");
-        else setEmailMsg('');
+        else setPasswordMsg('');
         const { data } = await axios.post('../api/register', {
             username,
             email,

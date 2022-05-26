@@ -10,6 +10,7 @@ import {
     Paper,
     Select,
     TextField,
+    Typography,
 } from '@mui/material';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { v4 as uuidv4 } from 'uuid';
@@ -43,6 +44,7 @@ const natures = [
 const etats = ['En instant', 'En cours', 'Traitée', 'Achevée', 'Programée'];
 
 const IntervForm2 = ({ token, cancelForm2 }) => {
+    const [errorMsg, setErrorMsg] = useState('')
     const initialFValues = [
         {
             id: uuidv4(),
@@ -113,6 +115,16 @@ const IntervForm2 = ({ token, cancelForm2 }) => {
     });
 
     const handleSubmit = () => {
+      let errors = []  
+      errors = inputFields.map(field=>{
+           if(!field.Note || !field.Nature || !field.Ordre) return 'error'
+       }).filter(f=> f != undefined)
+       console.log('errors',errors)
+       if(errors.length != 0) {
+        setErrorMsg('Les champs (Note, Nature et Ordre) sont obligatoires')
+        return
+       } 
+       setErrorMsg('')
         const sentData = inputFields.map((field) => {
             let {
                 id,
@@ -152,6 +164,8 @@ const IntervForm2 = ({ token, cancelForm2 }) => {
     };
 
     return (
+        <>
+        <Typography component='span' sx={{color:'red'}}>{errorMsg}</Typography>
         <Paper
             sx={{
                 p: 3,
@@ -203,6 +217,7 @@ const IntervForm2 = ({ token, cancelForm2 }) => {
                                     variant="outlined"
                                     onChange={(e) => handleChangeInput(e, inputField.id)}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} md={2}>
@@ -223,6 +238,7 @@ const IntervForm2 = ({ token, cancelForm2 }) => {
                                         onChange={(e) => handleChangeInput(e, inputField.id)}
                                         label="Nature"
                                         fullWidth
+                                        required
                                     >
                                         {natures.map((nature, i) => (
                                             <MenuItem key={i} value={nature}>
@@ -259,6 +275,7 @@ const IntervForm2 = ({ token, cancelForm2 }) => {
                                     variant="outlined"
                                     onChange={(e) => handleChangeInput(e, inputField.id)}
                                     fullWidth
+                                    required
                                 />
                             </Grid>
                             <Grid item xs={12} md={2}>
@@ -317,6 +334,7 @@ const IntervForm2 = ({ token, cancelForm2 }) => {
                 <AddCircleIcon fontSize="large" sx={{ color: 'primary.main' }} />
             </IconButton>
         </Paper>
+        </>
     );
 };
 
