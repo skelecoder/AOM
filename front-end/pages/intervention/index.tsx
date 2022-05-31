@@ -1,4 +1,15 @@
-import { Button, Checkbox, Paper, Typography, Box } from '@mui/material';
+import {
+    Button,
+    Checkbox,
+    Paper,
+    Typography,
+    Box,
+    TextField,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+} from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
@@ -9,6 +20,7 @@ import JoinRightIcon from '@mui/icons-material/JoinRight';
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 import axios from 'axios';
+import qs from 'qs';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { dehydrate, QueryClient, useQuery } from 'react-query';
@@ -32,28 +44,69 @@ const titles = [
     'Etat',
 ];
 
-const getInterventions = (token:any) =>
-    axios
+const natures = [
+    'AF',
+    'AFF',
+    'C DO',
+    'C.GRILL',
+    'CGR',
+    'CRF',
+    'CRV',
+    'RBR',
+    'RGR',
+    'RRF',
+    'RRV',
+    'RTE',
+    'SBR',
+    'SCO',
+    'SSC',
+    'SSRBR',
+];
+const etats = ['En instant', 'En cours', 'Traitée', 'Achevée', 'Programée'];
+
+const getInterventions = (token: any, query = '') => {
+    if (query)
+        return axios
+            .get(
+                `http://${strapiHost}:${strapiPort}/api/interventions?${query}&pagination[page]=1&pagination[pageSize]=100`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            )
+            .then(({ data }) => data);
+
+    return axios
         .get(`http://${strapiHost}:${strapiPort}/api/interventions?pagination[page]=1&pagination[pageSize]=100`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         })
-        .then(({ data }) => data);    
+        .then(({ data }) => data);
+};
 
-const Intervention = ({token}) => {
-   
+const Intervention = ({ token }) => {
     const [selection, setSelection] = useState([]);
     const [openPlanModal, setOpenPlanModal] = useState(false);
     const [openTraitModal, setOpenTraitModal] = useState(false);
     const [isDisabled, setIsDisabled] = useState(true);
     const [ids, setIds] = useState([]);
+    const [filterNote, setFilterNote] = useState('');
+    const [filterNature, setFilterNature] = useState('');
+    const [filterEtat, setFilterEtat] = useState('');
 
     const router = useRouter();
 
+    let query: string = '';
+    if (filterNote) query += `&filters[Note][$eq]=${filterNote}`;
+    if (filterNature) query += `&filters[Nature][$eq]=${filterNature}`;
+    if (filterEtat) query += `&filters[Etat][$eq]=${filterEtat}`;
+
     const {
         data: { data },
-    } = useQuery('interventions', ()=>getInterventions(token));
+        refetch,
+    } = useQuery('interventions', () => getInterventions(token, query));
 
     const gridRows = data?.map((interv) => {
         let { id, attributes } = interv;
@@ -172,12 +225,60 @@ const Intervention = ({token}) => {
                 sx={{
                     height: 'auto',
                     display: { xs: 'none', md: 'flex' },
+                    flexDirection: 'column',
                     '& .css-1jbbcbn-MuiDataGrid-columnHeaderTitle': {
                         color: 'primary.main',
                         fontWeight: 'bold',
                     },
                 }}
             >
+                <Box mb={2}>
+                    <Typography mb={1} color="primary.main" fontWeight="600">
+                        Filtres
+                    </Typography>
+                    <TextField
+                        label="Note"
+                        name="Note"
+                        value={filterNote}
+                        variant="outlined"
+                        onChange={(e) => setFilterNote(e.target.value)}
+                    />
+
+                    <InputLabel>Nature</InputLabel>
+                    <Select
+                        value={filterNature}
+                        name="Nature"
+                        onChange={(e) => setFilterNature(e.target.value)}
+                        label="Nature"
+                        required
+                        sx={{ width: 2 / 2 }}
+                    >
+                        <MenuItem>{'Sans Natute'}</MenuItem>
+                        {natures.map((nature, i) => (
+                            <MenuItem key={i} value={nature}>
+                                {nature}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <InputLabel>Etat</InputLabel>
+                    <Select
+                        value={filterEtat}
+                        name="Etat"
+                        onChange={(e) => setFilterEtat(e.target.value)}
+                        label="Etat"
+                        fullWidth
+                    >
+                        {etats.map((etat, i) => (
+                            <MenuItem key={i} value={etat}>
+                                {etat}
+                            </MenuItem>
+                        ))}
+                    </Select>
+
+                    <Button variant="contained" onClick={() => refetch()}>
+                        Chercher
+                    </Button>
+                </Box>
                 <Box sx={{ flexGrow: 1, height: '600px' }}>
                     <DataGrid
                         initialState={{
@@ -351,12 +452,12 @@ export async function getServerSideProps(context) {
 
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery('interventions', ()=> getInterventions(session.jwt));
+    await queryClient.prefetchQuery('interventions', () => getInterventions(session.jwt));
 
     return {
         props: {
             dehydratedState: dehydrate(queryClient),
-            token:session.jwt,
+            token: session.jwt,
         },
     };
 }
