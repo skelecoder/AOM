@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chef_d_equipes",
+  "info": {
+    "singularName": "chef-d-equipe",
+    "pluralName": "chef-d-equipes",
+    "displayName": "Chef-d-equipe",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Nom": {
+      "type": "string"
+    },
+    "Prenom": {
+      "type": "string"
+    },
+    "Matricule": {
+      "type": "string"
+    }
+  }
+}

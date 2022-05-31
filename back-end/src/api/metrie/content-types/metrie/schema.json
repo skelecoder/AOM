@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "metries",
+  "info": {
+    "singularName": "metrie",
+    "pluralName": "metries",
+    "displayName": "Métrie"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "intervention": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::intervention.intervention",
+      "inversedBy": "metrie"
+    }
+  }
+}

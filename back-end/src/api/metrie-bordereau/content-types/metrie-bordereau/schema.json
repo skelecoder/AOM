@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "metrie_bordereaus",
+  "info": {
+    "singularName": "metrie-bordereau",
+    "pluralName": "metrie-bordereaus",
+    "displayName": "Lignes_de_metrie",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "bp_marche_29_21_ta": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bp-marche-29-21-ta.bp-marche-29-21-ta"
+    },
+    "metrie": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::metrie.metrie"
+    },
+    "Longueur": {
+      "type": "float"
+    },
+    "Largeur": {
+      "type": "float"
+    },
+    "Epaisseur": {
+      "type": "float"
+    },
+    "Hauteur": {
+      "type": "float"
+    },
+    "Diametre": {
+      "type": "float"
+    },
+    "Quantite": {
+      "type": "float"
+    }
+  }
+}

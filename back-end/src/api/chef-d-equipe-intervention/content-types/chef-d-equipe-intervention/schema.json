@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chef_d_equipe_interventions",
+  "info": {
+    "singularName": "chef-d-equipe-intervention",
+    "pluralName": "chef-d-equipe-interventions",
+    "displayName": "Chef-d-equipe_Intervention",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "chef_d_equipe": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::chef-d-equipe.chef-d-equipe"
+    },
+    "Date_debut": {
+      "type": "date"
+    },
+    "Date_fin": {
+      "type": "date"
+    },
+    "intervention": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::intervention.intervention"
+    }
+  }
+}

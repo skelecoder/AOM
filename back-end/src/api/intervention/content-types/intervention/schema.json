@@ -75,6 +75,12 @@
       "relation": "manyToOne",
       "target": "api::attachement.attachement",
       "inversedBy": "interventions"
+    },
+    "metrie": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::metrie.metrie",
+      "inversedBy": "intervention"
     }
   }
 }
